@@ -90,6 +90,26 @@ export const sum = (array: number[][]): number => {
   return s;
 };
 
+export const min = (array: number[][]): number => {
+  let s = array[0][0];
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array[i].length; j++) {
+      s = Math.min(s, array[i][j]);
+    }
+  }
+  return s;
+};
+
+export const max = (array: number[][]): number => {
+  let s = array[0][0];
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array[i].length; j++) {
+      s = Math.max(s, array[i][j]);
+    }
+  }
+  return s;
+};
+
 export const densityToCumulative = (density: number[]): number[] => {
   const cumulative: number[] = [];
   let current = 0;

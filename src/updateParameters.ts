@@ -26,7 +26,6 @@ export const updateParameters = (p: Parameters): Parameters => {
   p.speedUpPerYear = Array(nbYears)
     .fill(undefined)
     .map((_, i) => p.speedUpEveryYear);
-  console.log(p.speedUpPerYear);
 
   p.probabilityDensity = crossProduct(
     p.probabilityDensityAIS,
@@ -52,9 +51,6 @@ export const updateParameters = (p: Parameters): Parameters => {
   p.doomProbWithYou = probDoom(p.shiftedProbabilityDensity);
 
   p.saveProb = p.doomProbWithoutYou - p.doomProbWithYou;
-
-  console.log(sum(p.probabilityDensity));
-  console.log(sum(p.shiftedProbabilityDensity));
 
   return p;
 };

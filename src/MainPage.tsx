@@ -16,7 +16,6 @@ const MainPage = (): JSX.Element => {
     setAgiProb(prob);
     const newParameters = parameters;
     const new_prob = parseFloat(prob);
-    console.log(new_prob);
     if (!isNaN(new_prob)) {
       newParameters.agiProb = new_prob;
       setParameters(newParameters);

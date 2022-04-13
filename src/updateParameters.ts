@@ -3,14 +3,14 @@ import {
   crossProduct,
   empty2DArray,
   interpolate,
+  subtract,
+  sum,
   transpose,
   triangleDistribution,
 } from "./mathUtils";
 import { Parameters } from "./types";
 
 export const updateParameters = (p: Parameters): Parameters => {
-  p.save_prob = p.agiProb * p.aisProb;
-
   p.probabilityDensityAGI = triangleDistribution(
     p.agiProbModeYear,
     nbYears,
@@ -23,7 +23,7 @@ export const updateParameters = (p: Parameters): Parameters => {
   );
   p.speedUpPerYear = Array(nbYears)
     .fill(undefined)
-    .map((_, i) => 0.5);
+    .map((_, i) => p.speedUpEveryYear);
   console.log(p.speedUpPerYear);
 
   p.probabilityDensity = crossProduct(
@@ -36,13 +36,28 @@ export const updateParameters = (p: Parameters): Parameters => {
     p.probabilityDensity,
     p.speedUpPerYear
   );
-  p.shiftedProbabilityDensityT = transpose(
+  p.deltaProbabilityDensity = subtract(
     p.shiftedProbabilityDensity,
+    p.probabilityDensity
+  );
+  //   p.deltaProbabilityDensity = p.shiftedProbabilityDensity;
+  p.deltaProbabilityDensityT = transpose(
+    p.deltaProbabilityDensity,
     nbYears - 1
   );
+
+  p.doomProbWithoutYou = probDoom(p.probabilityDensity);
+  p.doomProbWithYou = probDoom(p.shiftedProbabilityDensity);
+
+  p.saveProb = p.doomProbWithoutYou - p.doomProbWithYou;
+
+  console.log(sum(p.probabilityDensity));
+  console.log(sum(p.shiftedProbabilityDensity));
+
   return p;
 };
 
+// IT IS WRONG, SHOULD BE ABOUT PROB F FUNCTION
 const shiftProbDensity = (
   array: number[][],
   speedupPerYear: number[]
@@ -57,5 +72,15 @@ const shiftProbDensity = (
     }
   }
 
+  return result;
+};
+
+const probDoom = (probabilityDensity: number[][]): number => {
+  let result = 0;
+  for (let aisYear = 0; aisYear < nbYears; aisYear++) {
+    for (let agiYear = 0; agiYear < aisYear; agiYear++) {
+      result += probabilityDensity[agiYear][aisYear];
+    }
+  }
   return result;
 };

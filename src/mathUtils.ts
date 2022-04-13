@@ -66,3 +66,26 @@ export const triangleDistribution = (
 
   return result;
 };
+
+export const subtract = (
+  array1: number[][],
+  array2: number[][]
+): number[][] => {
+  const result = empty2DArray(array1.length, array1[0].length).map(
+    (subarray, i) =>
+      subarray.map((_, j) => {
+        return array1[i][j] - array2[i][j];
+      })
+  );
+  return result;
+};
+
+export const sum = (array: number[][]): number => {
+  let s = 0;
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array[i].length; j++) {
+      s += array[i][j];
+    }
+  }
+  return s;
+};

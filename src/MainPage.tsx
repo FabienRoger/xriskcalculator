@@ -5,8 +5,9 @@ import "./App.css";
 import { Parameters } from "./types";
 import { ParametersContext } from "./ParametersContext";
 import { DensityHeatMap } from "./DensityHeatMap";
+import ProbabilityResult from "./ProbabilityResult";
 
-const MainPage = () => {
+const MainPage = (): JSX.Element => {
   const { parameters, setParameters } = useContext(ParametersContext);
   const [agiProb, setAgiProb] = useState<string>(`${parameters.agiProb}`);
   const [aisProb, setAisProb] = useState<string>(`${parameters.aisProb}`);
@@ -33,7 +34,7 @@ const MainPage = () => {
   };
 
   const densityData = parameters.probabilityDensityT;
-  const shiftedDensityData = parameters.shiftedProbabilityDensityT;
+  const deltaDensityData = parameters.deltaProbabilityDensityT;
 
   return (
     <>
@@ -70,13 +71,32 @@ const MainPage = () => {
             <DensityHeatMap data={densityData} />
           </Col>
           <Col>
-            <DensityHeatMap data={shiftedDensityData} />
+            <DensityHeatMap data={deltaDensityData} />
           </Col>
         </Row>
       </Container>
       <Navbar bg="dark" variant="dark" className="bottom-navbar">
         <Container>
-          <Box sx={{ color: "white" }}>p = {parameters.save_prob}</Box>
+          <Row>
+            <Col xs={12} sm={3}>
+              <ProbabilityResult
+                text="How likely is the world to end?"
+                prob={parameters.doomProbWithoutYou}
+              />
+            </Col>
+            <Col xs={12} sm={3}>
+              <ProbabilityResult
+                text="How likely is it if you help?"
+                prob={parameters.doomProbWithYou}
+              />
+            </Col>
+            <Col xs={12} sm={6}>
+              <ProbabilityResult
+                text="How likely are you to save the world?"
+                prob={parameters.saveProb}
+              />
+            </Col>
+          </Row>
         </Container>
       </Navbar>
     </>

@@ -6,6 +6,16 @@ type DensityHeatMapProps = {
   data: number[][];
 };
 
+const valueToCol = (val: number, min: number, max: number) => {
+  const norm = Math.max(max, -min);
+  if (norm == 0) return "black";
+  if (val > 0) {
+    return `rgba(66, 86, 244, ${1 - (norm - val) / norm})`;
+  } else {
+    return `rgba(244, 86, 66, ${1 - (norm + val) / norm})`;
+  }
+};
+
 export const DensityHeatMap = (props: DensityHeatMapProps) => {
   const { data } = props;
 
@@ -27,8 +37,7 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
         data={data}
         squares
         cellStyle={(background, value, min, max, data, x, y) => ({
-          background: `rgba(66, 86, 244, ${1 -
-            (max - value) / (max > 0 ? max : 1)})`,
+          background: valueToCol(value, min, max),
           margin: "0",
         })}
         size

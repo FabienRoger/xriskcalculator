@@ -5,16 +5,20 @@ import { updateParameters } from "./updateParameters";
 export const default_params: Parameters = {
   agiProb: 0.5,
   aisProb: 0.8,
-  agiProbModeYear: 19,
+  agiProbModeYear: 10,
   aisProbModeYear: 10,
-  save_prob: 0,
+  speedUpEveryYear: 5e-1,
+  saveProb: 0,
   probabilityDensityAGI: [],
   probabilityDensityAIS: [],
   probabilityDensity: [],
   probabilityDensityT: [],
   speedUpPerYear: [],
   shiftedProbabilityDensity: [],
-  shiftedProbabilityDensityT: [],
+  deltaProbabilityDensity: [],
+  deltaProbabilityDensityT: [],
+  doomProbWithoutYou: 0,
+  doomProbWithYou: 0,
 };
 
 interface ParametersContextProps {

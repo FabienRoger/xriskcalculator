@@ -32,7 +32,8 @@ const MainPage = () => {
     }
   };
 
-  const densityData = parameters.probabilityDensity;
+  const densityData = parameters.probabilityDensityT;
+  const shiftedDensityData = parameters.shiftedProbabilityDensityT;
 
   return (
     <>
@@ -65,7 +66,12 @@ const MainPage = () => {
           </Col>
         </Row>
         <Row>
-          <DensityHeatMap data={densityData} />
+          <Col>
+            <DensityHeatMap data={densityData} />
+          </Col>
+          <Col>
+            <DensityHeatMap data={shiftedDensityData} />
+          </Col>
         </Row>
       </Container>
       <Navbar bg="dark" variant="dark" className="bottom-navbar">

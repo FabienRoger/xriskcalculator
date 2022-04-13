@@ -8,7 +8,6 @@ type DensityHeatMapProps = {
 
 export const DensityHeatMap = (props: DensityHeatMapProps) => {
   const { data } = props;
-  console.log(data);
 
   const labelsVisibility = new Array(nbYears)
     .fill(0)

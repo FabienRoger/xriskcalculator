@@ -89,3 +89,22 @@ export const sum = (array: number[][]): number => {
   }
   return s;
 };
+
+export const densityToCumulative = (density: number[]): number[] => {
+  const cumulative: number[] = [];
+  let current = 0;
+  for (let i = 0; i < density.length; i++) {
+    const d = density[i];
+    current += d;
+    cumulative.push(current);
+  }
+  return cumulative;
+};
+
+export const cumulativeToDensity = (cumulative: number[]): number[] => {
+  const density: number[] = [cumulative[0]];
+  for (let i = 1; i < cumulative.length; i++) {
+    density.push(cumulative[i] - cumulative[i - 1]);
+  }
+  return density;
+};

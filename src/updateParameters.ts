@@ -1,6 +1,8 @@
 import { nbYears } from "./constants";
 import {
   crossProduct,
+  cumulativeToDensity,
+  densityToCumulative,
   empty2DArray,
   interpolate,
   subtract,
@@ -59,17 +61,27 @@ export const updateParameters = (p: Parameters): Parameters => {
 
 // IT IS WRONG, SHOULD BE ABOUT PROB F FUNCTION
 const shiftProbDensity = (
-  array: number[][],
+  density: number[][],
   speedupPerYear: number[]
 ): number[][] => {
   let result: number[][] = empty2DArray(nbYears, nbYears);
 
   for (let agiYear = 0; agiYear < nbYears; agiYear++) {
+    const cumulativeAISProgress = densityToCumulative(density[agiYear]);
+    const shiftedCumulativeAISProgress: number[] = [];
+
+    const maxAISProgress =
+      cumulativeAISProgress[cumulativeAISProgress.length - 1];
+
     let aisProgress = 0; // Mesured in year index
     for (let aisYear = 0; aisYear < nbYears; aisYear++) {
-      result[agiYear][aisYear] = interpolate(array[agiYear], aisProgress, 0);
+      shiftedCumulativeAISProgress.push(
+        interpolate(cumulativeAISProgress, aisProgress, maxAISProgress)
+      );
       aisProgress += 1 + speedupPerYear[aisYear];
     }
+
+    result[agiYear] = cumulativeToDensity(shiftedCumulativeAISProgress);
   }
 
   return result;

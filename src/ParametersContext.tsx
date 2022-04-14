@@ -1,34 +1,31 @@
-import React, { createContext, ReactNode, useEffect, useState } from "react";
-import { Parameters } from "./types";
-import { updateParameters } from "./updateParameters";
+import React, { createContext, ReactNode, useState } from "react";
+import { nbYears } from "./constants";
+import {
+  constantDistribution,
+  crossProduct,
+  subtract,
+  triangleDistribution,
+} from "./mathUtils";
+import { probDoom, shiftProbDensity } from "./updateParametersUtils";
 
-export const default_params: Parameters = {
-  agiProb: 0.5,
-  aisProb: 0.8,
-  agiProbModeYear: 10,
-  aisProbModeYear: 10,
-  speedUpEveryYear: 5e-1,
-  saveProb: 0,
-  probabilityDensityAGI: [],
-  probabilityDensityAIS: [],
-  probabilityDensity: [],
-  probabilityDensityT: [],
-  speedUpPerYear: [],
-  shiftedProbabilityDensity: [],
-  deltaProbabilityDensity: [],
-  deltaProbabilityDensityT: [],
+export const ParametersContext = createContext({
+  agiProb: 0,
+  speedUpEveryYear: 0,
+  aisProb: 0,
+  agiProbModeYear: 0,
+  aisProbModeYear: 0,
+  setAgiProb: (_) => {},
+  setAisProb: (_) => {},
+  setAgiProbModeYear: (_) => {},
+  setAisProbModeYear: (_) => {},
+  setSpeedUpEveryYear: (_) => {},
+  probabilityDensityAGI: [0],
+  probabilityDensityAIS: [0],
+  probabilityDensity: [[0]],
+  deltaProbabilityDensity: [[0]],
   doomProbWithoutYou: 0,
   doomProbWithYou: 0,
-};
-
-interface ParametersContextProps {
-  parameters: Parameters;
-  setParameters: (param: Parameters) => void;
-}
-
-export const ParametersContext = createContext<ParametersContextProps>({
-  parameters: default_params,
-  setParameters: (_) => {},
+  saveProb: 0,
 });
 
 export const ParametersContextProvider = ({
@@ -36,16 +33,62 @@ export const ParametersContextProvider = ({
 }: {
   children: ReactNode;
 }): JSX.Element => {
-  const [parameters, setParameters_] = useState(
-    updateParameters(default_params)
-  );
+  const [agiProb, setAgiProb] = useState<number>(0.5);
+  const [aisProb, setAisProb] = useState<number>(0.8);
+  const [agiProbModeYear, setAgiProbModeYear] = useState<number>(10);
+  const [aisProbModeYear, setAisProbModeYear] = useState<number>(10);
+  const [speedUpEveryYear, setSpeedUpEveryYear] = useState<number>(5e-2);
 
-  const setParameters = (p: Parameters) => {
-    setParameters_(updateParameters(p));
-  };
+  const probabilityDensityAGI = triangleDistribution(
+    agiProbModeYear,
+    nbYears,
+    agiProb
+  );
+  const probabilityDensityAIS = triangleDistribution(
+    aisProbModeYear,
+    nbYears,
+    aisProb
+  );
+  const probabilityDensity = crossProduct(
+    probabilityDensityAIS,
+    probabilityDensityAGI
+  );
+  const speedUpPerYear = constantDistribution(nbYears, speedUpEveryYear);
+  const shiftedProbabilityDensity = shiftProbDensity(
+    probabilityDensity,
+    speedUpPerYear
+  );
+  const deltaProbabilityDensity = subtract(
+    shiftedProbabilityDensity,
+    probabilityDensity
+  );
+  const doomProbWithoutYou = probDoom(probabilityDensity);
+  const doomProbWithYou = probDoom(shiftedProbabilityDensity);
+
+  const saveProb = doomProbWithoutYou - doomProbWithYou;
 
   return (
-    <ParametersContext.Provider value={{ parameters, setParameters }}>
+    <ParametersContext.Provider
+      value={{
+        agiProb,
+        setAgiProb,
+        aisProb,
+        setAisProb,
+        agiProbModeYear,
+        setAgiProbModeYear,
+        aisProbModeYear,
+        setAisProbModeYear,
+        speedUpEveryYear,
+        setSpeedUpEveryYear,
+        probabilityDensityAGI,
+        probabilityDensityAIS,
+        probabilityDensity,
+        deltaProbabilityDensity,
+        doomProbWithoutYou,
+        doomProbWithYou,
+        saveProb,
+      }}
+    >
       {children}
     </ParametersContext.Provider>
   );

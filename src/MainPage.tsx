@@ -1,39 +1,23 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Col, Container, Navbar, Row } from "react-bootstrap";
-import { TextField, Box } from "@mui/material";
 import "./App.css";
-import { Parameters } from "./types";
-import { ParametersContext } from "./ParametersContext";
 import { DensityHeatMap } from "./DensityHeatMap";
+import { ParametersContext } from "./ParametersContext";
+import ProbabilityInput from "./ProbabilityInput";
 import ProbabilityResult from "./ProbabilityResult";
 
 const MainPage = (): JSX.Element => {
-  const { parameters, setParameters } = useContext(ParametersContext);
-  const [agiProb, setAgiProb] = useState<string>(`${parameters.agiProb}`);
-  const [aisProb, setAisProb] = useState<string>(`${parameters.aisProb}`);
-
-  const agiProbChange = (prob: string) => {
-    setAgiProb(prob);
-    const newParameters = parameters;
-    const new_prob = parseFloat(prob);
-    if (!isNaN(new_prob)) {
-      newParameters.agiProb = new_prob;
-      setParameters(newParameters);
-    }
-  };
-
-  const aisProbChange = (prob: string) => {
-    setAisProb(prob);
-    const newParameters = parameters;
-    const new_prob = parseFloat(prob);
-    if (!isNaN(new_prob)) {
-      newParameters.aisProb = new_prob;
-      setParameters(newParameters);
-    }
-  };
-
-  const densityData = parameters.probabilityDensityT;
-  const deltaDensityData = parameters.deltaProbabilityDensityT;
+  const {
+    agiProb,
+    setAgiProb,
+    aisProb,
+    setAisProb,
+    probabilityDensity,
+    deltaProbabilityDensity,
+    doomProbWithYou,
+    doomProbWithoutYou,
+    saveProb,
+  } = useContext(ParametersContext);
 
   return (
     <>
@@ -45,32 +29,26 @@ const MainPage = (): JSX.Element => {
       <Container className="main">
         <Row xs={1} md={2}>
           <Col>
-            <TextField
-              size="small"
-              id="agi-probability"
-              label="AGI probability"
-              variant="outlined"
-              value={agiProb}
-              onChange={(e) => agiProbChange(e.target.value)}
+            <ProbabilityInput
+              setProb={setAgiProb}
+              text={"AGI probability"}
+              defaultValue={agiProb}
             />
           </Col>
           <Col>
-            <TextField
-              size="small"
-              id="ais-probability"
-              label="AI safety success probability"
-              variant="outlined"
-              value={aisProb}
-              onChange={(e) => aisProbChange(e.target.value)}
+            <ProbabilityInput
+              setProb={setAisProb}
+              text={"AI safety success probability"}
+              defaultValue={aisProb}
             />
           </Col>
         </Row>
         <Row>
           <Col>
-            <DensityHeatMap data={densityData} />
+            <DensityHeatMap data={probabilityDensity} />
           </Col>
           <Col>
-            <DensityHeatMap data={deltaDensityData} />
+            <DensityHeatMap data={deltaProbabilityDensity} />
           </Col>
         </Row>
       </Container>
@@ -80,19 +58,19 @@ const MainPage = (): JSX.Element => {
             <Col xs={12} sm={3}>
               <ProbabilityResult
                 text="How likely is the world to end?"
-                prob={parameters.doomProbWithoutYou}
+                prob={doomProbWithoutYou}
               />
             </Col>
             <Col xs={12} sm={3}>
               <ProbabilityResult
                 text="How likely is it if you help?"
-                prob={parameters.doomProbWithYou}
+                prob={doomProbWithYou}
               />
             </Col>
             <Col xs={12} sm={6}>
               <ProbabilityResult
                 text="How likely are you to save the world?"
-                prob={parameters.saveProb}
+                prob={saveProb}
               />
             </Col>
           </Row>

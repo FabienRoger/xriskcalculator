@@ -2,14 +2,14 @@ import { Gradient } from "@mui/icons-material";
 import React, { useContext, useState } from "react";
 import HeatMap from "react-heatmap-grid";
 import { yearsNames, nbYears } from "./constants";
-import { max, min } from "./mathUtils";
+import { max, min, transpose } from "./mathUtils";
 
 type DensityHeatMapProps = {
   data: number[][];
 };
 
 const valueToCol = (val: number, norm: number) => {
-  if (norm == 0) return "black";
+  if (norm == 0) return "lightgray";
   if (val > 0) {
     return `rgba(66, 86, 244, ${1 - (norm - val) / norm})`;
   } else {
@@ -59,11 +59,12 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
           xLabelsLocation={"bottom"}
           xLabelsVisibility={labelsVisibility}
           height={cellSize}
-          data={data}
+          data={transpose(data)}
           squares
           cellStyle={(background, value, min, max, data, x, y) => ({
             background: valueToCol(value, norm),
             margin: "0",
+            border: "1px solid lightgray"
           })}
           size
         />
@@ -73,7 +74,7 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
           marginLeft: "20px",
           height: `${nbYears * cellSize * 0.7}px`,
           width: "10px",
-          border: "1px solid light-gray",
+          border: "1px solid lightgray",
           background: colorBarGradient,
         }}
       />

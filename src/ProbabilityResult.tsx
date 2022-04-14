@@ -1,10 +1,6 @@
-import React, { useContext, useState } from "react";
-import { Col, Container, Navbar, Row } from "react-bootstrap";
-import { TextField, Box } from "@mui/material";
+import { Box } from "@mui/material";
+import React from "react";
 import "./App.css";
-import { Parameters } from "./types";
-import { ParametersContext } from "./ParametersContext";
-import { DensityHeatMap } from "./DensityHeatMap";
 
 const ProbabilityResult = (props: {
   prob: number;

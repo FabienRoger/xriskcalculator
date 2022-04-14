@@ -4,7 +4,8 @@ export const empty2DArray = (cols: number, rows: number): number[][] => {
     .map(() => Array(cols).fill(0));
 };
 
-export const transpose = (array: number[][], maxI: number): number[][] => {
+export const transpose = (array: number[][]): number[][] => {
+  const maxI = array.length - 1;
   return empty2DArray(array.length, array[0].length).map((subarray, i) =>
     subarray.map((_, j) => array[maxI - i][j])
   );
@@ -36,15 +37,22 @@ export const interpolate = (
   return alpha * array[floorIndex] + (1 - alpha) * array[ceilIndex];
 };
 
+export const constantDistribution = (
+  length: number,
+  value: number
+): number[] => {
+  const result = Array(length)
+    .fill(undefined)
+    .map((_, i) => value);
+
+  return result;
+};
+
 export const uniformDistribution = (
   length: number,
   totalArea: number
 ): number[] => {
-  const result = Array(length)
-    .fill(undefined)
-    .map((_, i) => totalArea / length);
-
-  return result;
+  return constantDistribution(length, totalArea / length);
 };
 
 export const triangleDistribution = (

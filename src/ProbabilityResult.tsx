@@ -11,7 +11,7 @@ const ProbabilityResult = (props: {
 
   return (
     <Box sx={{ color: "white" }}>
-      {text} <br /> = {displayedProb}
+      {text} <br /> p = {displayedProb}
     </Box>
   );
 };

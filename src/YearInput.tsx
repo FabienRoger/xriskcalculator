@@ -1,22 +1,23 @@
 import React from "react";
 import "./App.css";
+import { endYear, nbYears, startYear } from "./constants";
 import ValueInput from "./ValueInput";
 
-type ProbabilityInputProps = {
+type YearInputProps = {
   setValue: (v: number) => void;
   text: string;
   defaultValue: number;
 };
 
-const ProbabilityInput = (props: ProbabilityInputProps): JSX.Element => {
+const YearInput = (props: YearInputProps): JSX.Element => {
   const { setValue, text, defaultValue } = props;
 
-  const validator = (p: number) => {
-    return 0 <= p && p <= 1;
+  const validator = (y: number) => {
+    return y >= startYear && y <= endYear;
   };
 
-  const convertor = (p: number) => {
-    return p;
+  const convertor = (y: number) => {
+    return (y - startYear) / nbYears;
   };
 
   return (
@@ -29,4 +30,4 @@ const ProbabilityInput = (props: ProbabilityInputProps): JSX.Element => {
     />
   );
 };
-export default ProbabilityInput;
+export default YearInput;

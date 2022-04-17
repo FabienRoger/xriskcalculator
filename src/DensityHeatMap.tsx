@@ -48,6 +48,7 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
       style={{
         paddingBottom: "2em",
         paddingTop: "1em",
+        marginBottom: "3em",
         display: "flex",
         flexDirection: "row",
       }}
@@ -64,14 +65,14 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
           cellStyle={(background, value, min, max, data, x, y) => ({
             background: valueToCol(value, norm),
             margin: "0",
-            border: "1px solid lightgray"
+            border: "1px solid lightgray",
           })}
           size
         />
       </div>
       <div
         style={{
-          marginLeft: "20px",
+          marginLeft: "30px",
           height: `${nbYears * cellSize * 0.7}px`,
           width: "10px",
           border: "1px solid lightgray",

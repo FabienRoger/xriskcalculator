@@ -1,7 +1,10 @@
-const startYear = 2020;
-const endYear = 2040;
-export const nbYears: number = endYear - startYear + 1;
+export const startYear = 2020;
+export const endYear = 2100;
+export const yearsInterval = 4;
+export const nbYears: number = Math.ceil(
+  (endYear - startYear + 1) / yearsInterval
+);
 export const yearsNames: string[] = Array.from(
   { length: nbYears },
-  (_, i) => `${startYear + i}`
+  (_, i) => `${startYear + i * yearsInterval}`
 );

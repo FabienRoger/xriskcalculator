@@ -10,11 +10,13 @@ import { probDoom, shiftProbDensity } from "./updateParametersUtils";
 
 export const ParametersContext = createContext({
   agiProb: 0,
+  agiWrongProb: 0,
   speedUpEveryYear: 0,
   aisProb: 0,
   agiProbModeYear: 0,
   aisProbModeYear: 0,
   setAgiProb: (_) => {},
+  setAgiWrongProb: (_) => {},
   setAisProb: (_) => {},
   setAgiProbModeYear: (_) => {},
   setAisProbModeYear: (_) => {},
@@ -34,6 +36,7 @@ export const ParametersContextProvider = ({
   children: ReactNode;
 }): JSX.Element => {
   const [agiProb, setAgiProb] = useState<number>(0.5);
+  const [agiWrongProb, setAgiWrongProb] = useState<number>(0.5);
   const [aisProb, setAisProb] = useState<number>(0.8);
   const [agiProbModeYear, setAgiProbModeYear] = useState<number>(10);
   const [aisProbModeYear, setAisProbModeYear] = useState<number>(10);
@@ -42,7 +45,7 @@ export const ParametersContextProvider = ({
   const probabilityDensityAGI = triangleDistribution(
     agiProbModeYear,
     nbYears,
-    agiProb
+    agiProb * agiWrongProb
   );
   const probabilityDensityAIS = triangleDistribution(
     aisProbModeYear,
@@ -72,6 +75,8 @@ export const ParametersContextProvider = ({
       value={{
         agiProb,
         setAgiProb,
+        agiWrongProb,
+        setAgiWrongProb,
         aisProb,
         setAisProb,
         agiProbModeYear,

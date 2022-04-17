@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { endYear, nbYears, startYear } from "./constants";
+import { endYear, nbYears, startYear, yearsInterval } from "./constants";
 import ValueInput from "./ValueInput";
 
 type YearInputProps = {
@@ -17,14 +17,14 @@ const YearInput = (props: YearInputProps): JSX.Element => {
   };
 
   const convertor = (y: number) => {
-    return (y - startYear) / nbYears;
+    return (y - startYear) / yearsInterval;
   };
 
   return (
     <ValueInput
       setValue={setValue}
       text={text}
-      defaultValue={defaultValue}
+      defaultValue={defaultValue * yearsInterval + startYear}
       validator={validator}
       convertor={convertor}
     />

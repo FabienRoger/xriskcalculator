@@ -20,7 +20,7 @@ const ValueInput = (props: ValueInputProps): JSX.Element => {
     setValueInput(value);
     const new_value = parseFloat(value);
     if (!isNaN(new_value) && validator(new_value)) {
-      setValue(new_value);
+      setValue(convertor(new_value));
       setValueValid(true);
     } else {
       setValueValid(false);

@@ -38,6 +38,7 @@ const MainPage = (): JSX.Element => {
         </Container>
       </Navbar>
       <Container className="main" style={{ paddingBottom: "8em" }}>
+        <h2>Your believes about AGI and AI safety</h2>
         <p>
           First, describe how you think AGI would go without your approach to
           AGI safety existing at all.
@@ -65,6 +66,7 @@ const MainPage = (): JSX.Element => {
             />
           </Col>
         </Row>
+        <br />
         <p>
           Now describe if and when you think your approach to AGI safety will be
           ready to prevent AGI from going wrong.
@@ -85,9 +87,28 @@ const MainPage = (): JSX.Element => {
             />
           </Col>
         </Row>
+        <br />
+        <p>
+          Finally, describe how much you think you will speedup progress in your
+          approach of AI safety.
+        </p>
         <Row>
-          <h2>Results' details</h2>
+          <Col xs={12} md={4}>
+            <ValueInput
+              setValue={setAgiWrongProb}
+              text={"How much speedup (in %)"}
+              defaultValue={agiWrongProb * 100}
+              validator={(v: number): boolean => {
+                return v >= 0;
+              }}
+              convertor={(v: number): number => {
+                return v / 100;
+              }}
+            />
+          </Col>
         </Row>
+        <br />
+        <h2>Results' details</h2>
         <Row>
           <Col>
             <p>
@@ -112,61 +133,56 @@ const MainPage = (): JSX.Element => {
             <DensityHeatMap data={deltaProbabilityDensity} />
           </Col>
         </Row>
-        <Row>
-          <h2>Assumptions and limitations</h2>
-          <p>
-            This estimator introduces many assumptions that are inacurrate and
-            may be completly wrong.
-          </p>
-          <ul>
-            <li>
-              This tool assumes that you work on a approach to AGI Safety that
-              you are not the only prusuring.
-            </li>
-            <li>
-              This tool assumes that what happens after 2100 is irrelevant.
-            </li>
-            <li>
-              This tool assumes that you speed up AI Safety progress at a
-              constant rate throughout the century. This is widely inaccurate if
-              you don't expect to work on the problem the whole time.
-            </li>
-            <li>
-              This tool assumes that you speed up AI Safety progress with no
-              uncertainty. This is widely inaccurate if you engage in actions
-              with a high variance in outcome and that you are a significant
-              player in your approach.
-            </li>
-            <li>
-              [Many more incorrect assumptions... Feel free to add the by doing
-              a pull request.]
-            </li>
-            <li>
-              The results won't be more precise than the input. Please make
-              experiments with lower and higher estimation for each parameters
-              if you want to have an idea of the uncertainties at play.
-            </li>
-          </ul>
-          <p>
-            Please tell me which of the limitations are the ones that would be
-            the most usefull fixing.
-          </p>
-        </Row>
-        <Row>
-          Details:
-          <ul>
-            <li>
-              If AI Safety is solved on the same year as rogue AGI appears,
-              humanity is considered doomed. In pratice, this doesn't make much
-              a difference to the results.
-            </li>
-            <li>
-              Years are taken in batches of {yearsInterval}. The probability in
-              each square is the probability that the event happens within this{" "}
-              {yearsInterval}-year window, starting at the displayed year.
-            </li>
-          </ul>
-        </Row>
+        <h2>Assumptions and limitations</h2>
+        <p>
+          This estimator introduces many assumptions that are inacurrate and may
+          be completly wrong.
+        </p>
+        <ul>
+          <li>
+            This tool assumes that you work on a approach to AGI Safety that you
+            are not the only prusuring.
+          </li>
+          <li>This tool assumes that what happens after 2100 is irrelevant.</li>
+          <li>
+            This tool assumes that you speed up AI Safety progress at a constant
+            rate throughout the century. This is widely inaccurate if you don't
+            expect to work on the problem the whole time.
+          </li>
+          <li>
+            This tool assumes that you speed up AI Safety progress with no
+            uncertainty. This is widely inaccurate if you engage in actions with
+            a high variance in outcome and that you are a significant player in
+            your approach.
+          </li>
+          <li>This tool mainly focuses on technical.</li>
+          <li>
+            [Many more incorrect assumptions... Feel free to add the by doing a
+            pull request.]
+          </li>
+          <li>
+            The results won't be more precise than the input. Please make
+            experiments with lower and higher estimation for each parameters if
+            you want to have an idea of the uncertainties at play.
+          </li>
+        </ul>
+        <p>
+          Please tell me which of the limitations are the ones that would be the
+          most usefull fixing.
+        </p>
+        <p>Details:</p>
+        <ul>
+          <li>
+            If AI Safety is solved on the same year as rogue AGI appears,
+            humanity is considered doomed. In pratice, this doesn't make much a
+            difference to the results.
+          </li>
+          <li>
+            Years are taken in batches of {yearsInterval}. The probability in
+            each square is the probability that the event happens within this{" "}
+            {yearsInterval}-year window, starting at the displayed year.
+          </li>
+        </ul>
       </Container>
       <Navbar bg="dark" variant="dark" className="bottom-navbar">
         <Container>

@@ -12,6 +12,7 @@ export const ParametersContext = createContext({
   agiProb: 0,
   agiWrongProb: 0,
   speedUpEveryYear: 0,
+  speedUpFraction: 0,
   aisProb: 0,
   agiProbModeYear: 0,
   aisProbModeYear: 0,
@@ -21,6 +22,7 @@ export const ParametersContext = createContext({
   setAgiProbModeYear: (_) => {},
   setAisProbModeYear: (_) => {},
   setSpeedUpEveryYear: (_) => {},
+  setSpeedUpFraction: (_) => {},
   probabilityDensityAGI: [0],
   probabilityDensityAIS: [0],
   probabilityDensity: [[0]],
@@ -41,6 +43,7 @@ export const ParametersContextProvider = ({
   const [agiProbModeYear, setAgiProbModeYear] = useState<number>(10);
   const [aisProbModeYear, setAisProbModeYear] = useState<number>(10);
   const [speedUpEveryYear, setSpeedUpEveryYear] = useState<number>(5e-2);
+  const [speedUpFraction, setSpeedUpFraction] = useState<number>(0.5);
 
   const probabilityDensityAGI = triangleDistribution(
     agiProbModeYear,
@@ -56,7 +59,10 @@ export const ParametersContextProvider = ({
     probabilityDensityAIS,
     probabilityDensityAGI
   );
-  const speedUpPerYear = constantDistribution(nbYears, speedUpEveryYear);
+  const speedUpPerYear = constantDistribution(
+    nbYears,
+    speedUpEveryYear * speedUpFraction
+  );
   const shiftedProbabilityDensity = shiftProbDensity(
     probabilityDensity,
     speedUpPerYear
@@ -85,6 +91,8 @@ export const ParametersContextProvider = ({
         setAisProbModeYear,
         speedUpEveryYear,
         setSpeedUpEveryYear,
+        speedUpFraction: speedUpFraction,
+        setSpeedUpFraction,
         probabilityDensityAGI,
         probabilityDensityAIS,
         probabilityDensity,

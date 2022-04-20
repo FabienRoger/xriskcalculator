@@ -28,15 +28,24 @@ const ValueInput = (props: ValueInputProps): JSX.Element => {
   };
 
   return (
-    <TextField
-      size="small"
-      id={text}
-      label={text}
-      variant="outlined"
-      value={valueInput}
-      onChange={(e) => valueChange(e.target.value)}
-      error={!valueValid}
-    />
+    <div
+      style={{
+        margin: 0,
+        padding: 0,
+        marginTop: "1rem",
+      }}
+    >
+      <TextField
+        size="small"
+        id={text}
+        label={text}
+        variant="outlined"
+        value={valueInput}
+        onChange={(e) => valueChange(e.target.value)}
+        error={!valueValid}
+        fullWidth
+      />
+    </div>
   );
 };
 export default ValueInput;

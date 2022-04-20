@@ -21,6 +21,10 @@ const MainPage = (): JSX.Element => {
     setAisProb,
     aisProbModeYear,
     setAisProbModeYear,
+    speedUpEveryYear,
+    setSpeedUpEveryYear,
+    speedUpFraction,
+    setSpeedUpFraction,
     probabilityDensity,
     deltaProbabilityDensity,
     doomProbWithYou,
@@ -89,15 +93,23 @@ const MainPage = (): JSX.Element => {
         </Row>
         <br />
         <p>
-          Finally, describe how much you think you will speedup progress in your
-          approach of AI safety.
+          Finally, describe what fraction of the work your organisation is doing
+          in your approach of AI safety, and how much you think you will speedup
+          your organisation's progress in this direction.
         </p>
         <Row>
           <Col xs={12} md={4}>
+            <ProbabilityInput
+              setValue={setSpeedUpFraction}
+              text={"What fraction of the work is your org. doing?"}
+              defaultValue={speedUpFraction}
+            />
+          </Col>
+          <Col xs={12} md={4}>
             <ValueInput
-              setValue={setAgiWrongProb}
-              text={"How much speedup (in %)"}
-              defaultValue={agiWrongProb * 100}
+              setValue={setSpeedUpEveryYear}
+              text={"How much do you speed it up (in %)"}
+              defaultValue={speedUpEveryYear * 100}
               validator={(v: number): boolean => {
                 return v >= 0;
               }}
@@ -109,6 +121,11 @@ const MainPage = (): JSX.Element => {
         </Row>
         <br />
         <h2>Results' details</h2>
+        <p>
+          To compute the results, the probability distribution on the left is
+          shifted to the left (by 1/(1+speedup*fraction_of_the_work)). The
+          difference between the old and the new one is displayed on the right.
+        </p>
         <Row>
           <Col>
             <p>
@@ -143,7 +160,16 @@ const MainPage = (): JSX.Element => {
             This tool assumes that you work on a approach to AGI Safety that you
             are not the only prusuring.
           </li>
-          <li>This tool assumes that what happens after 2100 is irrelevant.</li>
+          <li>
+            This tool assumes that what happens after 2100 is irrelevant (AGI
+            Safety can't be solved beyond this point, and AGI can't be developed
+            either).
+          </li>
+          <li>
+            This tool assumes that progress on AGI and progress on AGI Safety
+            are independent. This is obviously false and might have a large
+            impact on the final result.
+          </li>
           <li>
             This tool assumes that you speed up AI Safety progress at a constant
             rate throughout the century. This is widely inaccurate if you don't
@@ -154,6 +180,12 @@ const MainPage = (): JSX.Element => {
             uncertainty. This is widely inaccurate if you engage in actions with
             a high variance in outcome and that you are a significant player in
             your approach.
+          </li>
+          <li>
+            This tool assumes that you speed up AI Safety progress without ever
+            slowing down progress in other appraoches of AGI Safety. This might
+            be wrong if you promote your appraoch to AGI Safety at the expense
+            of others.
           </li>
           <li>This tool mainly focuses on technical.</li>
           <li>

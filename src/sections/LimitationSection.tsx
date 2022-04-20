@@ -6,13 +6,13 @@ const LimitationSection = (): JSX.Element => {
     <>
       <h2>Assumptions and limitations</h2>
       <p>
-        This estimator introduces many assumptions that are inacurrate and may
-        be completly wrong.
+        This estimator introduces many assumptions that are inaccurate and may
+        be completely wrong.
       </p>
       <ul>
         <li>
           This tool assumes that you work on a approach to AGI Safety that you
-          are not the only prusuring.
+          are not the only pursuing.
         </li>
         <li>
           This tool assumes that what happens after 2100 is irrelevant (AGI
@@ -37,13 +37,13 @@ const LimitationSection = (): JSX.Element => {
         </li>
         <li>
           This tool assumes that you speed up AI Safety progress without ever
-          slowing down progress in other appraoches of AGI Safety. This might be
-          wrong if you promote your appraoch to AGI Safety at the expense of
+          slowing down progress in other approaches of AGI Safety. This might be
+          wrong if you promote your approach to AGI Safety at the expense of
           others.
         </li>
         <li>This tool mainly focuses on technical.</li>
         <li>
-          There might be a bug somewhere. If the results seem completly wrong,
+          There might be a bug somewhere. If the results seem completely wrong,
           it may be that I screwed up. (As of now, there isn't a lot of tests to
           check that I did everything correctly. Please tell me if you want to
           use this tool to make any significant decision so that I improve its
@@ -61,7 +61,7 @@ const LimitationSection = (): JSX.Element => {
       </ul>
       <p>
         Please tell me which of the limitations are the ones that would be the
-        most usefull fixing.
+        most useful fixing.
       </p>
       <p>
         This tool also lacks the possibility to share a parameter setup. Tell me
@@ -71,7 +71,7 @@ const LimitationSection = (): JSX.Element => {
       <ul>
         <li>
           If AI Safety is solved on the same year as rogue AGI appears, humanity
-          is considered doomed. In pratice, this doesn't make much a difference
+          is considered doomed. In practice, this doesn't make much a difference
           to the results.
         </li>
         <li>

@@ -73,9 +73,9 @@ const InputsSection = (): JSX.Element => {
       />
       <br />
       <p>
-        Finally, describe what fraction of the work your organisation is doing
+        Finally, describe what fraction of the work your organization is doing
         in your approach of AI safety, and how much you think you will speedup
-        your organisation's progress in this direction.
+        your organization's progress in this direction.
       </p>
       <Row>
         <Col sm={12} md={4}>

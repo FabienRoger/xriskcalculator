@@ -1,3 +1,5 @@
+import { le, ge } from "binary-search-bounds";
+
 export const empty2DArray = (cols: number, rows: number): number[][] => {
   return Array(rows)
     .fill(undefined)
@@ -65,6 +67,35 @@ export const triangleDistribution = (
   let result = Array(length)
     .fill(undefined)
     .map((_, i) => Math.min(i / mode, (length - 1 - i) / (length - 1 - mode)));
+
+  const sum = result.reduce((prev, current) => prev + current, 0);
+
+  for (let i = 0; i < result.length; i++) {
+    result[i] *= totalArea / sum;
+  }
+
+  return result;
+};
+
+export const piecewiseLinearDistribution = (
+  xCoordinates: number[],
+  yCoordinates: number[],
+  length: number,
+  totalArea: number
+) => {
+  let result = Array(length)
+    .fill(undefined)
+    .map((_, x) => {
+      const leftI = le(xCoordinates, x);
+      const rightI = ge(xCoordinates, x);
+      if (leftI == rightI) return yCoordinates[leftI];
+      const alpha =
+        (x - xCoordinates[leftI]) /
+        (xCoordinates[rightI] - xCoordinates[leftI]);
+      const r =
+        alpha * yCoordinates[rightI] + (1 - alpha) * yCoordinates[leftI];
+      return r;
+    });
 
   const sum = result.reduce((prev, current) => prev + current, 0);
 

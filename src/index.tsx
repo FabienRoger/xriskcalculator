@@ -7,9 +7,7 @@ import { ParametersContextProvider } from "./ParametersContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ParametersContextProvider>
-      <App />
-    </ParametersContextProvider>
+    <App />
   </React.StrictMode>,
   document.getElementById("root")
 );

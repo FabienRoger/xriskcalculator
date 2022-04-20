@@ -49,6 +49,7 @@ const InputsSection = (): JSX.Element => {
         setDistribution={setAgiDistribution}
         text="AGI"
         defaultDistribution={agiDistribution}
+        area={agiProb * agiWrongProb}
       />
       <br />
       <p>
@@ -70,6 +71,7 @@ const InputsSection = (): JSX.Element => {
         text="AI Safety solved"
         mostLikelyText="When is it most likely to be solved?"
         defaultDistribution={aisDistribution}
+        area={aisProb}
       />
       <br />
       <p>

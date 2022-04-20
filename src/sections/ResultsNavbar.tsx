@@ -11,19 +11,19 @@ const ResultsNavbar = (): JSX.Element => {
     <Navbar bg="dark" variant="dark" className="bottom-navbar">
       <Container>
         <Row style={{ width: "100%" }}>
-          <Col xs={12} sm={4}>
+          <Col sm={12} md={4}>
             <ProbabilityResult
               text="How likely is the world to end?"
               prob={doomProbWithoutYou}
             />
           </Col>
-          <Col xs={12} sm={3}>
+          <Col sm={12} md={3}>
             <ProbabilityResult
               text="How likely is it if you help?"
               prob={doomProbWithYou}
             />
           </Col>
-          <Col xs={12} sm={5}>
+          <Col sm={12} md={5}>
             <ProbabilityResult
               text="How likely are you to save the world?"
               prob={saveProb}
@@ -31,6 +31,10 @@ const ResultsNavbar = (): JSX.Element => {
           </Col>
         </Row>
       </Container>
+      <div style={{ fontSize: "0.8em", color: "lightgray" }}>
+        <p>By Fabien</p>
+        <p>Discord: cefabla#8663</p>
+      </div>
     </Navbar>
   );
 };

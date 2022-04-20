@@ -1,6 +1,5 @@
 import React from "react";
-import "./App.css";
-import { endYear, nbYears, startYear, yearsInterval } from "./constants";
+import { endYear, startYear, yearsInterval } from "../utils/constants";
 import ValueInput from "./ValueInput";
 
 type YearInputProps = {

@@ -9,10 +9,9 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import "./App.css";
-import { endYear, yearsNames } from "./constants";
-import { piecewiseLinearDistribution } from "./mathUtils";
-import { PiecewiseDistributionParameters } from "./types";
+import { endYear, yearsNames } from "../utils/constants";
+import { piecewiseLinearDistribution } from "../utils/mathUtils";
+import { PiecewiseDistributionParameters } from "../types";
 import ValueInput from "./ValueInput";
 import YearInput from "./YearInput";
 

@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import ValueInput from "./ValueInput";
 
 type ProbabilityInputProps = {

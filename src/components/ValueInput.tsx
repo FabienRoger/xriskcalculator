@@ -1,7 +1,5 @@
 import { TextField } from "@mui/material";
 import React, { useState } from "react";
-import "./App.css";
-
 type ValueInputProps = {
   setValue: (v: number) => void;
   text: string;

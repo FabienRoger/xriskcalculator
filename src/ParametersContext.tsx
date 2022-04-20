@@ -1,21 +1,19 @@
 import React, {
-  createContext,
   Dispatch,
   ReactNode,
   SetStateAction,
-  useState,
+  useState
 } from "react";
-import { nbYears } from "./constants";
-import { createGenericContext } from "./genericContext";
+import { PiecewiseDistributionParameters } from "./types";
+import { nbYears } from "./utils/constants";
+import { createGenericContext } from "./utils/genericContext";
 import {
   constantDistribution,
   crossProduct,
   piecewiseLinearDistribution,
-  subtract,
-  triangleDistribution,
-} from "./mathUtils";
-import { PiecewiseDistributionParameters } from "./types";
-import { probDoom, shiftProbDensity } from "./updateParametersUtils";
+  subtract
+} from "./utils/mathUtils";
+import { probDoom, shiftProbDensity } from "./utils/updateParametersUtils";
 
 type ParametersContext = {
   agiProb: number;
@@ -41,10 +39,8 @@ type ParametersContext = {
   saveProb: number;
 };
 
-const [
-  useParametersContext,
-  ParametersContextProviderBlank,
-] = createGenericContext<ParametersContext>();
+const [useParametersContext, ParametersContextProviderBlank] =
+  createGenericContext<ParametersContext>();
 
 export const ParametersContextProvider = ({
   children,
@@ -54,25 +50,22 @@ export const ParametersContextProvider = ({
   const [agiProb, setAgiProb] = useState<number>(0.5);
   const [agiWrongProb, setAgiWrongProb] = useState<number>(0.2);
   const [aisProb, setAisProb] = useState<number>(0.3);
-  const [agiDistribution, setAgiDistribution] = useState<
-    PiecewiseDistributionParameters
-  >({
-    xCoordinates: [0, 6, nbYears - 1],
-    yCoordinates: [0, 1, 0.5],
-    length: nbYears,
-    area: 1,
-  });
-  const [aisDistribution, setAisDistribution] = useState<
-    PiecewiseDistributionParameters
-  >({
-    xCoordinates: [0, 10, nbYears - 1],
-    yCoordinates: [0.3, 1, 0.7],
-    length: nbYears,
-    area: 1,
-  });
+  const [agiDistribution, setAgiDistribution] =
+    useState<PiecewiseDistributionParameters>({
+      xCoordinates: [0, 6, nbYears - 1],
+      yCoordinates: [0, 1, 0.5],
+      length: nbYears,
+      area: 1,
+    });
+  const [aisDistribution, setAisDistribution] =
+    useState<PiecewiseDistributionParameters>({
+      xCoordinates: [0, 10, nbYears - 1],
+      yCoordinates: [0.3, 1, 0.7],
+      length: nbYears,
+      area: 1,
+    });
   const [speedUpEveryYear, setSpeedUpEveryYear] = useState<number>(0.01);
   const [speedUpFraction, setSpeedUpFraction] = useState<number>(0.2);
-
 
   const probabilityDensityAGI = piecewiseLinearDistribution(
     agiDistribution.xCoordinates,
@@ -139,3 +132,4 @@ export const ParametersContextProvider = ({
 };
 
 export { useParametersContext };
+

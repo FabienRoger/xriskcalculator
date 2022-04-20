@@ -1,8 +1,8 @@
 import { Gradient } from "@mui/icons-material";
 import React, { useContext, useState } from "react";
 import HeatMap from "react-heatmap-grid";
-import { yearsNames, nbYears } from "./constants";
-import { max, min, transpose } from "./mathUtils";
+import { yearsNames, nbYears } from "../utils/constants";
+import { max, min, transpose } from "../utils/mathUtils";
 
 type DensityHeatMapProps = {
   data: number[][];

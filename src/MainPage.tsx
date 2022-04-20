@@ -8,6 +8,7 @@ import ProbabilityResult from "./ProbabilityResult";
 import YearInput from "./YearInput";
 import ProbabilityInput from "./ProbabilityInput";
 import { yearsInterval } from "./constants";
+import PiecewiseLinearDistributionCreator from "./DistributionCreator";
 
 const MainPage = (): JSX.Element => {
   const {
@@ -25,8 +26,6 @@ const MainPage = (): JSX.Element => {
     setAisDistribution,
     setSpeedUpEveryYear,
     setSpeedUpFraction,
-    probabilityDensityAGI,
-    probabilityDensityAIS,
     probabilityDensity,
     deltaProbabilityDensity,
     doomProbWithoutYou,
@@ -64,18 +63,12 @@ const MainPage = (): JSX.Element => {
               defaultValue={agiWrongProb}
             />
           </Col>
-          <Col xs={12} md={4}>
-            <YearInput
-              setValue={(y) => {
-                const newAgiDistribution = { ...agiDistribution };
-                agiDistribution.xCoordinates[1] = y;
-                setAgiDistribution(newAgiDistribution);
-              }}
-              text={"When is this AGI most likely?"}
-              defaultValue={agiDistribution.xCoordinates[1]}
-            />
-          </Col>
         </Row>
+        <PiecewiseLinearDistributionCreator
+          setDistribution={setAgiDistribution}
+          text="AGI"
+          defaultDistribution={agiDistribution}
+        />
         <br />
         <p>
           Now describe if and when you think your approach to AGI safety will be
@@ -89,18 +82,14 @@ const MainPage = (): JSX.Element => {
               defaultValue={aisProb}
             />
           </Col>
-          <Col xs={12} md={4}>
-            <YearInput
-              setValue={(y) => {
-                const newAisDistribution = { ...aisDistribution };
-                aisDistribution.xCoordinates[1] = y;
-                setAisDistribution(newAisDistribution);
-              }}
-              text={"When is it most likely to be ready?"}
-              defaultValue={aisDistribution.xCoordinates[1]}
-            />
-          </Col>
         </Row>
+
+        <PiecewiseLinearDistributionCreator
+          setDistribution={setAisDistribution}
+          text="AI Safety solved"
+          mostLikelyText="When is it most likely to be solved?"
+          defaultDistribution={aisDistribution}
+        />
         <br />
         <p>
           Finally, describe what fraction of the work your organisation is doing

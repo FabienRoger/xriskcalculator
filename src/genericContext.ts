@@ -1,3 +1,5 @@
+// https://medium.com/@rivoltafilippo/typing-react-context-to-avoid-an-undefined-default-value-2c7c5a7d5947
+
 import React from "react";
 
 export const createGenericContext = <T extends unknown>() => {

@@ -9,7 +9,7 @@ type DensityHeatMapProps = {
 };
 
 const valueToCol = (val: number, norm: number) => {
-  if (norm == 0) return "lightgray";
+  if (norm < 1e-17) return "lightgray";
   if (val > 0) {
     return `rgba(66, 86, 244, ${1 - (norm - val) / norm})`;
   } else {
@@ -43,6 +43,10 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
 
   const cellSize = 15;
 
+  const getBorderColor = (x: number, y: number): string => {
+    return nbYears - x - 1 == y ? "black" : "lightgray";
+  };
+
   return (
     <div
       style={{
@@ -64,7 +68,8 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
           cellStyle={(background, value, min, max, data, x, y) => ({
             background: valueToCol(value, norm),
             margin: "0",
-            border: "1px solid lightgray",
+            borderTop: `1px solid ${getBorderColor(x, y)}`,
+            borderLeft: `1px solid ${getBorderColor(x, y)}`,
           })}
           size
         />

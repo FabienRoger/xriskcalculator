@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Col, Container, Navbar, Row } from "react-bootstrap";
 import "./App.css";
 import { DensityHeatMap } from "./DensityHeatMap";
-import { ParametersContext } from "./ParametersContext";
+import { useParametersContext } from "./ParametersContext";
 import ValueInput from "./ValueInput";
 import ProbabilityResult from "./ProbabilityResult";
 import YearInput from "./YearInput";
@@ -12,25 +12,27 @@ import { yearsInterval } from "./constants";
 const MainPage = (): JSX.Element => {
   const {
     agiProb,
-    setAgiProb,
-    agiProbModeYear,
-    setAgiProbModeYear,
     agiWrongProb,
-    setAgiWrongProb,
     aisProb,
-    setAisProb,
-    aisProbModeYear,
-    setAisProbModeYear,
+    agiDistribution,
+    aisDistribution,
     speedUpEveryYear,
-    setSpeedUpEveryYear,
     speedUpFraction,
+    setAgiProb,
+    setAgiWrongProb,
+    setAisProb,
+    setAgiDistribution,
+    setAisDistribution,
+    setSpeedUpEveryYear,
     setSpeedUpFraction,
+    probabilityDensityAGI,
+    probabilityDensityAIS,
     probabilityDensity,
     deltaProbabilityDensity,
-    doomProbWithYou,
     doomProbWithoutYou,
+    doomProbWithYou,
     saveProb,
-  } = useContext(ParametersContext);
+  } = useParametersContext();
 
   return (
     <>
@@ -64,9 +66,13 @@ const MainPage = (): JSX.Element => {
           </Col>
           <Col xs={12} md={4}>
             <YearInput
-              setValue={setAgiProbModeYear}
+              setValue={(y) => {
+                const newAgiDistribution = { ...agiDistribution };
+                agiDistribution.xCoordinates[1] = y;
+                setAgiDistribution(newAgiDistribution);
+              }}
               text={"When is this AGI most likely?"}
-              defaultValue={agiProbModeYear}
+              defaultValue={agiDistribution.xCoordinates[1]}
             />
           </Col>
         </Row>
@@ -85,9 +91,13 @@ const MainPage = (): JSX.Element => {
           </Col>
           <Col xs={12} md={4}>
             <YearInput
-              setValue={setAisProbModeYear}
+              setValue={(y) => {
+                const newAisDistribution = { ...aisDistribution };
+                aisDistribution.xCoordinates[1] = y;
+                setAisDistribution(newAisDistribution);
+              }}
               text={"When is it most likely to be ready?"}
-              defaultValue={aisProbModeYear}
+              defaultValue={aisDistribution.xCoordinates[1]}
             />
           </Col>
         </Row>

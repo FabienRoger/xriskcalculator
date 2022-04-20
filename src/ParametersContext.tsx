@@ -1,36 +1,50 @@
-import React, { createContext, ReactNode, useState } from "react";
+import React, {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useState,
+} from "react";
 import { nbYears } from "./constants";
+import { createGenericContext } from "./genericContext";
 import {
   constantDistribution,
   crossProduct,
+  piecewiseLinearDistribution,
   subtract,
   triangleDistribution,
 } from "./mathUtils";
+import { PiecewiseDistributionParameters } from "./types";
 import { probDoom, shiftProbDensity } from "./updateParametersUtils";
 
-export const ParametersContext = createContext({
-  agiProb: 0,
-  agiWrongProb: 0,
-  speedUpEveryYear: 0,
-  speedUpFraction: 0,
-  aisProb: 0,
-  agiProbModeYear: 0,
-  aisProbModeYear: 0,
-  setAgiProb: (_) => {},
-  setAgiWrongProb: (_) => {},
-  setAisProb: (_) => {},
-  setAgiProbModeYear: (_) => {},
-  setAisProbModeYear: (_) => {},
-  setSpeedUpEveryYear: (_) => {},
-  setSpeedUpFraction: (_) => {},
-  probabilityDensityAGI: [0],
-  probabilityDensityAIS: [0],
-  probabilityDensity: [[0]],
-  deltaProbabilityDensity: [[0]],
-  doomProbWithoutYou: 0,
-  doomProbWithYou: 0,
-  saveProb: 0,
-});
+type ParametersContext = {
+  agiProb: number;
+  aisProb: number;
+  agiWrongProb: number;
+  agiDistribution: PiecewiseDistributionParameters;
+  aisDistribution: PiecewiseDistributionParameters;
+  speedUpEveryYear: number;
+  speedUpFraction: number;
+  setAgiProb: Dispatch<SetStateAction<number>>;
+  setAgiWrongProb: Dispatch<SetStateAction<number>>;
+  setAisProb: Dispatch<SetStateAction<number>>;
+  setAgiDistribution: Dispatch<SetStateAction<PiecewiseDistributionParameters>>;
+  setAisDistribution: Dispatch<SetStateAction<PiecewiseDistributionParameters>>;
+  setSpeedUpEveryYear: Dispatch<SetStateAction<number>>;
+  setSpeedUpFraction: Dispatch<SetStateAction<number>>;
+  probabilityDensityAGI: number[];
+  probabilityDensityAIS: number[];
+  probabilityDensity: number[][];
+  deltaProbabilityDensity: number[][];
+  doomProbWithoutYou: number;
+  doomProbWithYou: number;
+  saveProb: number;
+};
+
+const [
+  useParametersContext,
+  ParametersContextProviderBlank,
+] = createGenericContext<ParametersContext>();
 
 export const ParametersContextProvider = ({
   children,
@@ -39,20 +53,35 @@ export const ParametersContextProvider = ({
 }): JSX.Element => {
   const [agiProb, setAgiProb] = useState<number>(0.5);
   const [agiWrongProb, setAgiWrongProb] = useState<number>(0.5);
-  const [aisProb, setAisProb] = useState<number>(0.8);
-  const [agiProbModeYear, setAgiProbModeYear] = useState<number>(10);
-  const [aisProbModeYear, setAisProbModeYear] = useState<number>(10);
+  const [aisProb, setAisProb] = useState<number>(0.5);
+  const [agiDistribution, setAgiDistribution] = useState<
+    PiecewiseDistributionParameters
+  >({
+    xCoordinates: [0, 10, nbYears - 1],
+    yCoordinates: [0, 1, 0],
+    length: nbYears,
+    area: 1,
+  });
+  const [aisDistribution, setAisDistribution] = useState<
+    PiecewiseDistributionParameters
+  >({
+    xCoordinates: [0, 10, nbYears - 1],
+    yCoordinates: [0, 1, 0],
+    length: nbYears,
+    area: 1,
+  });
   const [speedUpEveryYear, setSpeedUpEveryYear] = useState<number>(5e-2);
   const [speedUpFraction, setSpeedUpFraction] = useState<number>(0.5);
-
-  const probabilityDensityAGI = triangleDistribution(
-    agiProbModeYear,
-    nbYears,
+  const probabilityDensityAGI = piecewiseLinearDistribution(
+    agiDistribution.xCoordinates,
+    agiDistribution.yCoordinates,
+    agiDistribution.length,
     agiProb * agiWrongProb
   );
-  const probabilityDensityAIS = triangleDistribution(
-    aisProbModeYear,
-    nbYears,
+  const probabilityDensityAIS = piecewiseLinearDistribution(
+    aisDistribution.xCoordinates,
+    aisDistribution.yCoordinates,
+    aisDistribution.length,
     aisProb
   );
   const probabilityDensity = crossProduct(
@@ -77,21 +106,21 @@ export const ParametersContextProvider = ({
   const saveProb = doomProbWithoutYou - doomProbWithYou;
 
   return (
-    <ParametersContext.Provider
+    <ParametersContextProviderBlank
       value={{
-        agiProb,
-        setAgiProb,
-        agiWrongProb,
-        setAgiWrongProb,
-        aisProb,
-        setAisProb,
-        agiProbModeYear,
-        setAgiProbModeYear,
-        aisProbModeYear,
-        setAisProbModeYear,
+        agiDistribution,
+        aisDistribution,
         speedUpEveryYear,
+        speedUpFraction,
+        agiProb,
+        agiWrongProb,
+        aisProb,
+        setAgiProb,
+        setAgiWrongProb,
+        setAisProb,
+        setAgiDistribution,
+        setAisDistribution,
         setSpeedUpEveryYear,
-        speedUpFraction: speedUpFraction,
         setSpeedUpFraction,
         probabilityDensityAGI,
         probabilityDensityAIS,
@@ -103,6 +132,8 @@ export const ParametersContextProvider = ({
       }}
     >
       {children}
-    </ParametersContext.Provider>
+    </ParametersContextProviderBlank>
   );
 };
+
+export { useParametersContext };

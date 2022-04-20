@@ -46,7 +46,7 @@ const PiecewiseLinearDistributionCreator = (
   return (
     <>
       <Row>
-        <Col xs={12} md={4}>
+        <Col sm={12} md={4}>
           <YearInput
             setValue={(y) => {
               const newDistribution = { ...distribution };
@@ -57,7 +57,7 @@ const PiecewiseLinearDistributionCreator = (
             defaultValue={distribution.xCoordinates[1]}
           />
         </Col>
-        <Col>
+        <Col sm={12} md={4}>
           <ValueInput
             setValue={(x) => {
               const newDistribution = { ...distribution };
@@ -72,7 +72,7 @@ const PiecewiseLinearDistributionCreator = (
             convertor={(v: number): number => v}
           />
         </Col>
-        <Col>
+        <Col sm={12} md={4}>
           <ValueInput
             setValue={(x) => {
               const newDistribution = { ...distribution };

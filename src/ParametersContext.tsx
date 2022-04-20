@@ -52,13 +52,13 @@ export const ParametersContextProvider = ({
   children: ReactNode;
 }): JSX.Element => {
   const [agiProb, setAgiProb] = useState<number>(0.5);
-  const [agiWrongProb, setAgiWrongProb] = useState<number>(0.5);
-  const [aisProb, setAisProb] = useState<number>(0.5);
+  const [agiWrongProb, setAgiWrongProb] = useState<number>(0.2);
+  const [aisProb, setAisProb] = useState<number>(0.3);
   const [agiDistribution, setAgiDistribution] = useState<
     PiecewiseDistributionParameters
   >({
-    xCoordinates: [0, 10, nbYears - 1],
-    yCoordinates: [0, 1, 0],
+    xCoordinates: [0, 6, nbYears - 1],
+    yCoordinates: [0, 1, 0.5],
     length: nbYears,
     area: 1,
   });
@@ -66,12 +66,14 @@ export const ParametersContextProvider = ({
     PiecewiseDistributionParameters
   >({
     xCoordinates: [0, 10, nbYears - 1],
-    yCoordinates: [0, 1, 0],
+    yCoordinates: [0.3, 1, 0.7],
     length: nbYears,
     area: 1,
   });
-  const [speedUpEveryYear, setSpeedUpEveryYear] = useState<number>(5e-2);
-  const [speedUpFraction, setSpeedUpFraction] = useState<number>(0.5);
+  const [speedUpEveryYear, setSpeedUpEveryYear] = useState<number>(0.01);
+  const [speedUpFraction, setSpeedUpFraction] = useState<number>(0.2);
+
+
   const probabilityDensityAGI = piecewiseLinearDistribution(
     agiDistribution.xCoordinates,
     agiDistribution.yCoordinates,

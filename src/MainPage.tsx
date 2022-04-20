@@ -49,14 +49,14 @@ const MainPage = (): JSX.Element => {
           AGI safety existing at all.
         </p>
         <Row>
-          <Col xs={12} md={4}>
+          <Col sm={12} md={4}>
             <ProbabilityInput
               setValue={setAgiProb}
               text={"How likely is AGI"}
               defaultValue={agiProb}
             />
           </Col>
-          <Col xs={12} md={4}>
+          <Col sm={12} md={4}>
             <ProbabilityInput
               setValue={setAgiWrongProb}
               text={"How likely is it to go wrong?"}
@@ -75,7 +75,7 @@ const MainPage = (): JSX.Element => {
           ready to prevent AGI from going wrong.
         </p>
         <Row>
-          <Col xs={12} md={4}>
+          <Col sm={12} md={4}>
             <ProbabilityInput
               setValue={setAisProb}
               text={"How likely is it to work?"}
@@ -97,14 +97,14 @@ const MainPage = (): JSX.Element => {
           your organisation's progress in this direction.
         </p>
         <Row>
-          <Col xs={12} md={4}>
+          <Col sm={12} md={4}>
             <ProbabilityInput
               setValue={setSpeedUpFraction}
               text={"What fraction of the work is your org. doing?"}
               defaultValue={speedUpFraction}
             />
           </Col>
-          <Col xs={12} md={4}>
+          <Col sm={12} md={4}>
             <ValueInput
               setValue={setSpeedUpEveryYear}
               text={"How much do you speed it up (in %)"}
@@ -224,7 +224,7 @@ const MainPage = (): JSX.Element => {
       </Container>
       <Navbar bg="dark" variant="dark" className="bottom-navbar">
         <Container>
-          <Row>
+          <Row style={{ width: "100%" }}>
             <Col xs={12} sm={4}>
               <ProbabilityResult
                 text="How likely is the world to end?"

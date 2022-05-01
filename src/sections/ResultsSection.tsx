@@ -14,11 +14,9 @@ const ResultsSection = (): JSX.Element => {
         <Row
           style={{
             maxWidth: "40em",
-            margin: "3px",
-            padding: "5px",
           }}
         >
-          <Col sm={12} md={6}>
+          <Col sm={12} md={5}>
             <ProbabilityResult
               text="How likely is the world to end?"
               prob={doomProbWithoutYou}

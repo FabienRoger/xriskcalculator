@@ -52,6 +52,7 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
       style={{
         paddingBottom: "2em",
         paddingTop: "1em",
+        paddingLeft: "1em",
         display: "flex",
         flexDirection: "row",
       }}

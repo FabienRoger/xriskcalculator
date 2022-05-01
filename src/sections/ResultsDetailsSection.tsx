@@ -15,26 +15,23 @@ const ResultsDetailsSection = (): JSX.Element => {
         difference between the old and the new one is displayed on the right.
       </p>
       <Row>
-        <Col>
-          <p>
-            Was is the probability that AI Safety is solved by your approach on
-            year x and that a rogue AGI happens on year y? (bellow the diagonal
-            line, humanity is doomed)
-          </p>
-        </Col>
-        <Col>
-          <p>
-            What difference does your intervention make? More precisely, how
-            would your intervention change the probability of each scenario "AI
-            Safety is solved on year x and a rogue AGI happens on year y"?
-          </p>
-        </Col>
+        <Col></Col>
+        <Col></Col>
       </Row>
       <Row>
         <Col>
+          <p>
+            Was is the probability that AI Safety is ready on year x and that a
+            rogue AGI happens on year y? (bellow the diagonal line, humanity is
+            doomed)
+          </p>
           <DensityHeatMap data={probabilityDensity} />
         </Col>
         <Col>
+          <p>
+            How would your intervention change the probability of each scenario
+            "AI Safety is solved on year x and a rogue AGI happens on year y"?
+          </p>
           <DensityHeatMap data={deltaProbabilityDensity} />
         </Col>
       </Row>

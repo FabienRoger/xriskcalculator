@@ -101,6 +101,7 @@ const InputsSection = (): JSX.Element => {
           />
         </Col>
       </Row>
+      <br />
     </>
   );
 };

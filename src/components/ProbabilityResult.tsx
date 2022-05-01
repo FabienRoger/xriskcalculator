@@ -9,8 +9,8 @@ const ProbabilityResult = (props: {
   const displayedProb = prob.toExponential(2);
 
   return (
-    <Box sx={{ color: "white" }}>
-      {text} <br /> p = {displayedProb}
+    <Box>
+      {text} <br /> p = <strong>{displayedProb}</strong>
     </Box>
   );
 };

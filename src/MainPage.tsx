@@ -3,7 +3,8 @@ import { Container, Navbar } from "react-bootstrap";
 import InputsSection from "./sections/InputsSection";
 import LimitationSection from "./sections/LimitationSection";
 import ResultsDetailsSection from "./sections/ResultsDetailsSection";
-import ResultsNavbar from "./sections/ResultsNavbar";
+import ResultsSection from "./sections/ResultsSection";
+import Footer from "./sections/Footer";
 
 const MainPage = (): JSX.Element => {
   return (
@@ -15,13 +16,13 @@ const MainPage = (): JSX.Element => {
           </Navbar.Brand>
         </Container>
       </Navbar>
-      <Container className="main" style={{ paddingBottom: "8em" }}>
+      <Container className="main">
         <InputsSection />
-        <br />
+        <ResultsSection />
         <ResultsDetailsSection />
         <LimitationSection />
       </Container>
-      <ResultsNavbar />
+      <Footer />
     </>
   );
 };

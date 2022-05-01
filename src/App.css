@@ -1,3 +1,10 @@
 .main {
   padding: 1em;
 }
+
+.results-section {
+  background-color: #343A40;
+  color: white;
+  width: 100%;
+  padding: 1em;
+}

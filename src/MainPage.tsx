@@ -18,7 +18,9 @@ const MainPage = (): JSX.Element => {
       </Navbar>
       <Container className="main">
         <InputsSection />
-        <ResultsSection />
+      </Container>
+      <ResultsSection />
+      <Container className="main">
         <ResultsDetailsSection />
         <LimitationSection />
       </Container>

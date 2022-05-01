@@ -8,3 +8,5 @@ export const yearsNames: string[] = Array.from(
   { length: nbYears },
   (_, i) => `${startYear + i * yearsInterval}`
 );
+
+export const distributionPieces = 3;

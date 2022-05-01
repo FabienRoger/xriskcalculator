@@ -4,10 +4,26 @@ export const probToDisplayedProb = (prob: number): string => {
   return Math.abs(prob) < 1e-2 ? prob.toExponential(1) : prob.toPrecision(2);
 };
 
+export const arrayEquals = (a: any[], b: any[]): boolean => {
+  return a.length === b.length && a.every((val, index) => val === b[index]);
+};
+
 export const empty2DArray = (cols: number, rows: number): number[][] => {
   return Array(rows)
     .fill(undefined)
     .map(() => Array(cols).fill(0));
+};
+
+export const range = (length: number): number[] => {
+  return Array(length)
+    .fill(undefined)
+    .map((_, i) => i);
+};
+
+export const uniformlyDistributedPoints = (segments: number): number[] => {
+  // 3 => [0, 0.33, 0.66, 1]
+
+  return range(segments + 1).map((v) => v / segments);
 };
 
 export const transpose = (array: number[][]): number[][] => {
@@ -86,7 +102,7 @@ export const piecewiseLinearDistribution = (
   yCoordinates: number[],
   length: number,
   totalArea: number
-) => {
+): number[] => {
   let result = Array(length)
     .fill(undefined)
     .map((_, x) => {
@@ -105,6 +121,40 @@ export const piecewiseLinearDistribution = (
 
   for (let i = 0; i < result.length; i++) {
     result[i] *= totalArea / sum;
+  }
+
+  return result;
+};
+
+export const piecewiseLinearCumulativeDistribution = (
+  xCoordinates: number[],
+  yCoordinates: number[],
+  length: number,
+  totalArea: number
+): number[] => {
+  const fullXCoordinates = [...xCoordinates];
+  const fullYCoordinates = [...yCoordinates];
+
+  let result = Array(length)
+    .fill(undefined)
+    .map((_, x) => {
+      const leftI = le(fullXCoordinates, x);
+      const rightI = ge(fullXCoordinates, x);
+      if (leftI === -1) return 0;
+      if (rightI === fullXCoordinates.length) return 1;
+      if (fullXCoordinates[rightI] === fullXCoordinates[leftI])
+        return fullYCoordinates[leftI];
+      const alpha =
+        (x - fullXCoordinates[leftI]) /
+        (fullXCoordinates[rightI] - fullXCoordinates[leftI]);
+      const r =
+        alpha * fullYCoordinates[rightI] +
+        (1 - alpha) * fullYCoordinates[leftI];
+      return r;
+    });
+    
+  for (let i = 0; i < result.length; i++) {
+    result[i] *= totalArea;
   }
 
   return result;

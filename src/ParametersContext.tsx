@@ -1,17 +1,16 @@
-import React, {
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useState
-} from "react";
+import React, { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import { PiecewiseDistributionParameters } from "./types";
-import { nbYears } from "./utils/constants";
+import { distributionPieces, nbYears } from "./utils/constants";
 import { createGenericContext } from "./utils/genericContext";
 import {
   constantDistribution,
   crossProduct,
+  cumulativeToDensity,
+  piecewiseLinearCumulativeDistribution,
   piecewiseLinearDistribution,
-  subtract
+  range,
+  subtract,
+  uniformlyDistributedPoints,
 } from "./utils/mathUtils";
 import { probDoom, shiftProbDensity } from "./utils/updateParametersUtils";
 
@@ -52,32 +51,38 @@ export const ParametersContextProvider = ({
   const [aisProb, setAisProb] = useState<number>(0.3);
   const [agiDistribution, setAgiDistribution] =
     useState<PiecewiseDistributionParameters>({
-      xCoordinates: [0, 6, nbYears - 1],
-      yCoordinates: [0, 1, 0.5],
+      // xCoordinates: [0, 6, 10, nbYears - 1],
+      xCoordinates: [10, 10, 10, 10],
+      yCoordinates: uniformlyDistributedPoints(distributionPieces),
       length: nbYears,
       area: 1,
     });
   const [aisDistribution, setAisDistribution] =
     useState<PiecewiseDistributionParameters>({
-      xCoordinates: [0, 10, nbYears - 1],
-      yCoordinates: [0.3, 1, 0.7],
+      // xCoordinates: [0, 6, 10, nbYears - 1],
+      xCoordinates: [15, 15, 15, 15],
+      yCoordinates: uniformlyDistributedPoints(distributionPieces),
       length: nbYears,
       area: 1,
     });
   const [speedUpEveryYear, setSpeedUpEveryYear] = useState<number>(0.01);
   const [speedUpFraction, setSpeedUpFraction] = useState<number>(0.2);
 
-  const probabilityDensityAGI = piecewiseLinearDistribution(
-    agiDistribution.xCoordinates,
-    agiDistribution.yCoordinates,
-    agiDistribution.length,
-    agiProb * agiWrongProb
+  const probabilityDensityAGI = cumulativeToDensity(
+    piecewiseLinearCumulativeDistribution(
+      agiDistribution.xCoordinates,
+      agiDistribution.yCoordinates,
+      agiDistribution.length,
+      agiProb * agiWrongProb
+    )
   );
-  const probabilityDensityAIS = piecewiseLinearDistribution(
-    aisDistribution.xCoordinates,
-    aisDistribution.yCoordinates,
-    aisDistribution.length,
-    aisProb
+  const probabilityDensityAIS = cumulativeToDensity(
+    piecewiseLinearCumulativeDistribution(
+      aisDistribution.xCoordinates,
+      aisDistribution.yCoordinates,
+      aisDistribution.length,
+      aisProb
+    )
   );
   const probabilityDensity = crossProduct(
     probabilityDensityAIS,
@@ -132,4 +137,3 @@ export const ParametersContextProvider = ({
 };
 
 export { useParametersContext };
-

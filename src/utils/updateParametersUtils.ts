@@ -3,7 +3,7 @@ import {
   cumulativeToDensity,
   densityToCumulative,
   empty2DArray,
-  interpolate
+  interpolate,
 } from "./mathUtils";
 
 export const shiftProbDensity = (

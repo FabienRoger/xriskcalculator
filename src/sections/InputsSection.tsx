@@ -47,8 +47,8 @@ const InputsSection = (): JSX.Element => {
       </Row>
       <PiecewiseLinearDistributionCreator
         setDistribution={setAgiDistribution}
-        text="AGI"
-        defaultDistribution={agiDistribution}
+        text="What is the probability that AGI happens before any given year?"
+        distribution={agiDistribution}
         area={agiProb * agiWrongProb}
       />
       <br />
@@ -68,9 +68,8 @@ const InputsSection = (): JSX.Element => {
 
       <PiecewiseLinearDistributionCreator
         setDistribution={setAisDistribution}
-        text="AGI safety solved"
-        mostLikelyText="When is it most likely to be solved?"
-        defaultDistribution={aisDistribution}
+        text="What is the probability that AGI safety is ready at any given year?"
+        distribution={aisDistribution}
         area={aisProb}
       />
       <br />

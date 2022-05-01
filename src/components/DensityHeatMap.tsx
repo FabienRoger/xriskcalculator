@@ -22,7 +22,7 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
 
   const labelsVisibility = new Array(nbYears)
     .fill(0)
-    .map((_, i) => (i % 3 === 0 ? true : false));
+    .map((_, i) => i % 4 === 0);
 
   const yLabels = [...yearsNames];
   yLabels.reverse();
@@ -35,9 +35,9 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
 
   const colorBarGradient =
     minP >= 0
-      ? `linear-gradient(white,${valueToCol(norm, norm)})`
-      : `linear-gradient(${valueToCol(-norm, norm)} 0%, white 50%,${valueToCol(
-          norm,
+      ? `linear-gradient(${valueToCol(norm, norm)}, white)`
+      : `linear-gradient(${valueToCol(norm, norm)} 0%, white 50%,${valueToCol(
+          -norm,
           norm
         )} 100%)`;
 
@@ -56,7 +56,26 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
         flexDirection: "row",
       }}
     >
-      <div>
+      <div style={{ position: "relative" }}>
+        <p
+          style={{
+            bottom: "-2em",
+            left: "5em",
+            position: "absolute",
+          }}
+        >
+          When AI safety becomes ready
+        </p>
+        <p
+          style={{
+            bottom: "8em",
+            left: "-5em",
+            position: "absolute",
+            transform: "rotate(-90deg)",
+          }}
+        >
+          When AGI happens
+        </p>
         <HeatMap
           xLabels={yearsNames}
           yLabels={yLabels}
@@ -92,8 +111,8 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
           fontSize: "0.7rem",
         }}
       >
-        <p style={{ marginBottom: "auto" }}>{displayedMaxProb}</p>
-        <p style={{ marginBottom: "0" }}>{displayedMinProb}</p>
+        <p style={{ marginBottom: "auto" }}>p = {displayedMaxProb}</p>
+        <p style={{ marginBottom: "0" }}>p = {displayedMinProb}</p>
       </div>
     </div>
   );

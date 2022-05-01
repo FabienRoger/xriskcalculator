@@ -11,35 +11,25 @@ const LimitationSection = (): JSX.Element => {
       </p>
       <ul>
         <li>
-          This tool assumes that you work on a approach to AGI Safety that you
-          are not the only pursuing.
-        </li>
-        <li>
           This tool assumes that what happens after 2100 is irrelevant (AGI
-          Safety can't be solved beyond this point, and AGI can't be developed
+          safety can't be solved beyond this point, and AGI can't be developed
           either).
         </li>
         <li>
-          This tool assumes that progress on AGI and progress on AGI Safety are
+          This tool assumes that progress on AGI and progress on AGI safety are
           independent. This is obviously false and might have a large impact on
           the final result.
         </li>
         <li>
-          This tool assumes that you speed up AI Safety progress at a constant
+          This tool assumes that you speed up AGI safety progress at a constant
           rate throughout the century. This is widely inaccurate if you don't
           expect to work on the problem the whole time.
         </li>
         <li>
-          This tool assumes that you speed up AI Safety progress with no
+          This tool assumes that you speed up AGI safety progress with no
           uncertainty. This is widely inaccurate if you engage in actions with a
-          high variance in outcome and that you are a significant player in your
-          approach.
-        </li>
-        <li>
-          This tool assumes that you speed up AI Safety progress without ever
-          slowing down progress in other approaches of AGI Safety. This might be
-          wrong if you promote your approach to AGI Safety at the expense of
-          others.
+          high variance in outcome and that you are a significant player in AGI
+          safety.
         </li>
         <li>This tool mainly focuses on technical.</li>
         <li>
@@ -70,9 +60,9 @@ const LimitationSection = (): JSX.Element => {
       <p>Details:</p>
       <ul>
         <li>
-          If AI Safety is solved on the same year as rogue AGI appears, humanity
-          is considered doomed. In practice, this doesn't make much a difference
-          to the results.
+          If AGI safety is solved on the same year as rogue AGI appears,
+          humanity is considered doomed. In practice, this doesn't make much a
+          difference to the results.
         </li>
         <li>
           Years are taken in batches of {yearsInterval}. The probability in each

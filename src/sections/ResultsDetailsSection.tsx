@@ -21,7 +21,7 @@ const ResultsDetailsSection = (): JSX.Element => {
       <Row>
         <Col>
           <p>
-            Was is the probability that AI Safety is ready on year x and that a
+            Was is the probability that AGI safety is ready on year x and that a
             rogue AGI happens on year y? (bellow the diagonal line, humanity is
             doomed)
           </p>
@@ -30,7 +30,7 @@ const ResultsDetailsSection = (): JSX.Element => {
         <Col>
           <p>
             How would your intervention change the probability of each scenario
-            "AI Safety is solved on year x and a rogue AGI happens on year y"?
+            "AGI safety is solved on year x and a rogue AGI happens on year y"?
           </p>
           <DensityHeatMap data={deltaProbabilityDensity} />
         </Col>

@@ -65,7 +65,7 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
             position: "absolute",
           }}
         >
-          When AI safety becomes ready
+          When AGI safety becomes ready
         </p>
         <p
           style={{

@@ -24,10 +24,10 @@ const InputsSection = (): JSX.Element => {
   } = useParametersContext();
   return (
     <>
-      <h2>Your believes about AGI and AI safety</h2>
+      <h2>Your believes about AGI and AGI safety</h2>
       <p>
-        First, describe how you think AGI would go without your approach to AGI
-        safety existing at all.
+        First, describe how you think AGI would go without AGI safety existing
+        at all.
       </p>
       <Row>
         <Col sm={12} md={4}>
@@ -53,8 +53,8 @@ const InputsSection = (): JSX.Element => {
       />
       <br />
       <p>
-        Now describe if and when you think your approach to AGI safety will be
-        ready to prevent AGI from going wrong.
+        Now describe if and when you think AGI safety will be ready to prevent
+        AGI from going wrong.
       </p>
       <Row>
         <Col sm={12} md={4}>
@@ -68,16 +68,16 @@ const InputsSection = (): JSX.Element => {
 
       <PiecewiseLinearDistributionCreator
         setDistribution={setAisDistribution}
-        text="AI Safety solved"
+        text="AGI safety solved"
         mostLikelyText="When is it most likely to be solved?"
         defaultDistribution={aisDistribution}
         area={aisProb}
       />
       <br />
       <p>
-        Finally, describe what fraction of the work your organization is doing
-        in your approach of AI safety, and how much you think you will speedup
-        your organization's progress in this direction.
+        Finally, describe what fraction of the AGI safety work your organization
+        is doing, and how much you think you will speedup your organization's
+        progress in this direction.
       </p>
       <Row>
         <Col sm={12} md={4}>

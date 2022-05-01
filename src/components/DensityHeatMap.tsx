@@ -2,7 +2,7 @@ import { Gradient } from "@mui/icons-material";
 import React, { useContext, useState } from "react";
 import HeatMap from "react-heatmap-grid";
 import { yearsNames, nbYears } from "../utils/constants";
-import { max, min, transpose } from "../utils/mathUtils";
+import { max, min, probToDisplayedProb, transpose } from "../utils/mathUtils";
 
 type DensityHeatMapProps = {
   data: number[][];
@@ -30,8 +30,8 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
   const minP = min(data);
   const maxP = max(data);
   const norm = Math.max(maxP, -minP);
-  const displayedMinProb = minP >= 0 ? 0 : (-norm).toPrecision(2);
-  const displayedMaxProb = norm.toPrecision(2);
+  const displayedMinProb = probToDisplayedProb(minP >= 0 ? 0 : -norm);
+  const displayedMaxProb = probToDisplayedProb(norm);
 
   const colorBarGradient =
     minP >= 0
@@ -90,6 +90,7 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
             margin: "0",
             borderTop: `1px solid ${getBorderColor(x, y)}`,
             borderLeft: `1px solid ${getBorderColor(x, y)}`,
+            borderRadius: "2px",
           })}
           size
         />

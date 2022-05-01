@@ -1,13 +1,13 @@
 import { Box } from "@mui/material";
 import React from "react";
+import { probToDisplayedProb } from "../utils/mathUtils";
 
 const ProbabilityResult = (props: {
   prob: number;
   text: string;
 }): JSX.Element => {
   const { prob, text } = props;
-  const displayedProb =
-    prob < 1e-2 ? prob.toExponential(1) : prob.toPrecision(2);
+  const displayedProb = probToDisplayedProb(prob);
 
   return (
     <Box>

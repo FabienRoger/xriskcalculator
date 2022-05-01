@@ -1,5 +1,9 @@
 import { le, ge } from "binary-search-bounds";
 
+export const probToDisplayedProb = (prob: number): string => {
+  return Math.abs(prob) < 1e-2 ? prob.toExponential(1) : prob.toPrecision(2);
+};
+
 export const empty2DArray = (cols: number, rows: number): number[][] => {
   return Array(rows)
     .fill(undefined)

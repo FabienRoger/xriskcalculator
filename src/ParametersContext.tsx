@@ -47,26 +47,26 @@ export const ParametersContextProvider = ({
   children: ReactNode;
 }): JSX.Element => {
   const [agiProb, setAgiProb] = useState<number>(0.5);
-  const [agiWrongProb, setAgiWrongProb] = useState<number>(0.2);
-  const [aisProb, setAisProb] = useState<number>(0.3);
+  const [agiWrongProb, setAgiWrongProb] = useState<number>(0.8);
+  const [aisProb, setAisProb] = useState<number>(0.5);
   const [agiDistribution, setAgiDistribution] =
     useState<PiecewiseDistributionParameters>({
-      // xCoordinates: [0, 6, 10, nbYears - 1],
-      xCoordinates: [10, 10, 10, 10],
+      xCoordinates: [0, 5, 10, nbYears - 1],
+      // xCoordinates: [10, 10, 10, 10],
       yCoordinates: uniformlyDistributedPoints(distributionPieces),
       length: nbYears,
       area: 1,
     });
   const [aisDistribution, setAisDistribution] =
     useState<PiecewiseDistributionParameters>({
-      // xCoordinates: [0, 6, 10, nbYears - 1],
-      xCoordinates: [15, 15, 15, 15],
+      xCoordinates: [2, 8, 14, nbYears - 1],
+      // xCoordinates: [10, 10, 10, 10],
       yCoordinates: uniformlyDistributedPoints(distributionPieces),
       length: nbYears,
       area: 1,
     });
   const [speedUpEveryYear, setSpeedUpEveryYear] = useState<number>(0.01);
-  const [speedUpFraction, setSpeedUpFraction] = useState<number>(0.2);
+  const [speedUpFraction, setSpeedUpFraction] = useState<number>(0.02);
 
   const probabilityDensityAGI = cumulativeToDensity(
     piecewiseLinearCumulativeDistribution(

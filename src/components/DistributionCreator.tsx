@@ -78,6 +78,7 @@ const PiecewiseLinearDistributionCreator = (
             onChange={handleChange}
             min={0}
             max={nbYears - 1}
+            step={0.001}
           />
         </div>
       </Row>

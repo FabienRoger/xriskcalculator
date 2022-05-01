@@ -36,7 +36,7 @@ export const shiftProbDensity = (
 export const probDoom = (probabilityDensity: number[][]): number => {
   let result = 0;
   for (let aisYear = 0; aisYear < nbYears; aisYear++) {
-    for (let agiYear = 0; agiYear < aisYear; agiYear++) {
+    for (let agiYear = 0; agiYear <= aisYear; agiYear++) {
       result += probabilityDensity[agiYear][aisYear];
     }
   }

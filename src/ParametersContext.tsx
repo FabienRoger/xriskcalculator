@@ -85,9 +85,9 @@ export const ParametersContextProvider = ({
     )
   );
   const probabilityDensity = crossProduct(
-    probabilityDensityAIS,
-    probabilityDensityAGI
-  );
+    probabilityDensityAGI,
+    probabilityDensityAIS
+  ); // probabilityDensity[agiYear][aisYear]
   const speedUpPerYear = constantDistribution(
     nbYears,
     speedUpEveryYear * speedUpFraction

@@ -90,7 +90,7 @@ const InputsSection = (): JSX.Element => {
         <Col sm={12} md={4}>
           <ValueInput
             setValue={setSpeedUpEveryYear}
-            text={"How much do you speed it up (in %)"}
+            text={"How much do you speed it up (%)"}
             defaultValue={speedUpEveryYear * 100}
             validator={(v: number): boolean => {
               return v >= 0;

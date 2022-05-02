@@ -24,7 +24,7 @@ const InputsSection = (): JSX.Element => {
   } = useParametersContext();
   return (
     <>
-      <h2>Your believes about AGI and AGI safety</h2>
+      <h2>Your beliefs about AGI and AGI safety</h2>
       <p>
         First, describe how you think AGI would go without AGI safety existing
         at all.

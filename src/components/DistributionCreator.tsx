@@ -1,5 +1,5 @@
-import { Slider } from "@mui/material";
-import React, { useState } from "react";
+import { debounce, Slider } from "@mui/material";
+import React, { useCallback, useState } from "react";
 import { Row } from "react-bootstrap";
 import {
   CartesianGrid,
@@ -16,6 +16,7 @@ import {
   arrayEquals,
   piecewiseLinearCumulativeDistribution,
 } from "../utils/mathUtils";
+import _ from "lodash";
 
 type PiecewiseLinearDistributionCreatorProps = {
   setDistribution: (v: PiecewiseDistributionParameters) => void;
@@ -42,13 +43,21 @@ const PiecewiseLinearDistributionCreator = (
   });
 
   const [sliders, setSliders] = useState<number[]>(distribution.xCoordinates);
+
+  const updateDistribution = useCallback(
+    _.throttle((newSliders: number[]) => {
+      const sortedNewSliders = newSliders.sort((a, b) => a - b);
+      const newDistribution = { ...distribution };
+      newDistribution.xCoordinates = sortedNewSliders;
+      setDistribution(newDistribution);
+    }, 100),
+    []
+  );
+
   const handleChange = (e: Event, newSliders: number[]) => {
     if (arrayEquals(newSliders, sliders)) return;
     setSliders([...newSliders]);
-    const sortedNewSliders = newSliders.sort((a, b) => a - b);
-    const newDistribution = { ...distribution };
-    newDistribution.xCoordinates = sortedNewSliders;
-    setDistribution(newDistribution);
+    updateDistribution(newSliders);
   };
 
   return (

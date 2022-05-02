@@ -39,7 +39,7 @@ const PiecewiseLinearDistributionCreator = (
     distribution.length,
     displayedArea
   ).map((v, i) => {
-    return { year: yearsNames[i], p: v };
+    return { year: yearsNames[i], p: v.toPrecision(2) };
   });
 
   const [sliders, setSliders] = useState<number[]>(distribution.xCoordinates);

@@ -102,6 +102,7 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
           width: "10px",
           border: "1px solid lightgray",
           background: colorBarGradient,
+          flexShrink: 0,
         }}
       />
       <div

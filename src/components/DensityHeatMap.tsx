@@ -7,10 +7,16 @@ import "./DensityHeatMap.css";
 type DensityHeatMapProps = {
   data: number[][];
   grayBellowDiagonal?: boolean;
+  fullGrayBellowDiagonal?: boolean;
 };
 
-const valueToCol = (val: number, norm: number, grayed = false) => {
-  if (norm < 1e-17) return "lightgray";
+const valueToCol = (
+  val: number,
+  norm: number,
+  grayed = false,
+  fullGray = false
+) => {
+  if (norm < 1e-17 || fullGray) return "lightgray";
 
   const saturation = grayed ? "60%" : "80%";
 
@@ -24,7 +30,7 @@ const valueToCol = (val: number, norm: number, grayed = false) => {
 };
 
 export const DensityHeatMap = (props: DensityHeatMapProps) => {
-  const { grayBellowDiagonal, data } = props;
+  const { grayBellowDiagonal, data, fullGrayBellowDiagonal } = props;
 
   const labelsVisibility = new Array(nbYears)
     .fill(0)
@@ -54,7 +60,12 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
   };
 
   const cellColor = (value: number, x: number, y: number): string => {
-    return valueToCol(value, norm, grayBellowDiagonal && nbYears - x - 1 <= y);
+    return valueToCol(
+      value,
+      norm,
+      grayBellowDiagonal && nbYears - x - 1 <= y,
+      fullGrayBellowDiagonal && nbYears - x - 1 <= y
+    );
   };
 
   return (

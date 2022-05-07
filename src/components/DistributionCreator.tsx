@@ -35,12 +35,12 @@ const PiecewiseLinearDistributionCreator = (
   const [localDistribution, setLocalDistribution] =
     useState<PiecewiseDistributionParameters>(distribution);
 
-  useEffect(() => {
-    if (arrayEquals(distribution.xCoordinates, localDistribution.xCoordinates))
-      return;
+  // useEffect(() => {
+  //   if (arrayEquals(distribution.xCoordinates, localDistribution.xCoordinates))
+  //     return;
 
-    setLocalDistribution(distribution);
-  }, [distribution]);
+  //   setLocalDistribution({ ...distribution });
+  // }, [distribution]);
 
   const displayedArea = props.area ? props.area : 1;
 
@@ -56,9 +56,9 @@ const PiecewiseLinearDistributionCreator = (
   const [sliders, setSliders] = useState<number[]>(distribution.xCoordinates);
 
   const updateDistribution = useCallback(
-    _.debounce(() => {
-      setDistribution(localDistribution);
-    }, 1000),
+    _.debounce((newDistribution: PiecewiseDistributionParameters) => {
+      setDistribution(newDistribution);
+    }, 500),
     []
   );
 
@@ -71,7 +71,7 @@ const PiecewiseLinearDistributionCreator = (
     newDistribution.xCoordinates = sortedNewSliders;
     setLocalDistribution(newDistribution);
 
-    updateDistribution();
+    updateDistribution(newDistribution);
   };
 
   return (

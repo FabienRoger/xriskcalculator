@@ -10,7 +10,6 @@ const MyImpactSubsection = (): JSX.Element => {
   const { speedUpFactorsChains, currentSpeedUpChain, setCurrentSpeedUpChain } =
     useParametersContext();
 
-  console.log(speedUpFactorsChains.map((chain, i) => chain.title));
   return (
     <>
       <p>
@@ -27,7 +26,9 @@ const MyImpactSubsection = (): JSX.Element => {
         label=""
       >
         {speedUpFactorsChains.map((chain, i) => (
-          <MenuItem value={i}>{chain.title}</MenuItem>
+          <MenuItem value={i} key={i}>
+            {chain.title}
+          </MenuItem>
         ))}
       </Select>
       <br />
@@ -35,15 +36,16 @@ const MyImpactSubsection = (): JSX.Element => {
       <p>{speedUpFactorsChains[currentSpeedUpChain].description}</p>
       <Row>
         {speedUpFactorsChains[currentSpeedUpChain].speedUpFactors.map(
-          (factor) => {
+          (factor, i) => {
             const [value, setValue] = factor.state;
             const props = {
               setValue: setValue,
               text: factor.question,
               defaultValue: value,
+              key: `value${i}`,
             };
             return (
-              <Col sm={12} md={4}>
+              <Col sm={12} md={4} key={`col${i}`}>
                 {
                   {
                     "%prob": <ProbabilityInput {...props} />,

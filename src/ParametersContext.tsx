@@ -7,8 +7,6 @@ import {
   crossProduct,
   cumulativeToDensity,
   piecewiseLinearCumulativeDistribution,
-  piecewiseLinearDistribution,
-  range,
   subtract,
   uniformlyDistributedPoints,
 } from "./utils/mathUtils";
@@ -20,15 +18,12 @@ type ParametersContext = {
   agiWrongProb: number;
   agiDistribution: PiecewiseDistributionParameters;
   aisDistribution: PiecewiseDistributionParameters;
-  speedUpEveryYear: number;
-  speedUpFraction: number;
+  speedUpFactors: SpeedUpFactor[];
   setAgiProb: Dispatch<SetStateAction<number>>;
   setAgiWrongProb: Dispatch<SetStateAction<number>>;
   setAisProb: Dispatch<SetStateAction<number>>;
   setAgiDistribution: Dispatch<SetStateAction<PiecewiseDistributionParameters>>;
   setAisDistribution: Dispatch<SetStateAction<PiecewiseDistributionParameters>>;
-  setSpeedUpEveryYear: Dispatch<SetStateAction<number>>;
-  setSpeedUpFraction: Dispatch<SetStateAction<number>>;
   probabilityDensityAGI: number[];
   probabilityDensityAIS: number[];
   probabilityDensity: number[][];
@@ -36,6 +31,12 @@ type ParametersContext = {
   doomProbWithoutYou: number;
   doomProbWithYou: number;
   saveProb: number;
+};
+
+type SpeedUpFactor = {
+  question: string;
+  type: "%prob" | "%increase";
+  state: [number, Dispatch<SetStateAction<number>>];
 };
 
 const [useParametersContext, ParametersContextProviderBlank] =
@@ -65,8 +66,18 @@ export const ParametersContextProvider = ({
       length: nbYears,
       area: 1,
     });
-  const [speedUpEveryYear, setSpeedUpEveryYear] = useState<number>(0.01);
-  const [speedUpFraction, setSpeedUpFraction] = useState<number>(0.02);
+  const speedUpFactors: SpeedUpFactor[] = [
+    {
+      question: "What fraction of the work is your org. doing?",
+      type: "%prob",
+      state: useState<number>(0.01),
+    },
+    {
+      question: "How much do you speed it up (%)",
+      type: "%increase",
+      state: useState<number>(0.005),
+    },
+  ];
 
   const probabilityDensityAGI = cumulativeToDensity(
     piecewiseLinearCumulativeDistribution(
@@ -88,10 +99,13 @@ export const ParametersContextProvider = ({
     probabilityDensityAGI,
     probabilityDensityAIS
   ); // probabilityDensity[agiYear][aisYear]
-  const speedUpPerYear = constantDistribution(
-    nbYears,
-    speedUpEveryYear * speedUpFraction
+
+  const speedUp = speedUpFactors.reduce(
+    (previousValue, currentValue) => previousValue * currentValue.state[0],
+    1
   );
+
+  const speedUpPerYear = constantDistribution(nbYears, speedUp);
   const shiftedProbabilityDensity = shiftProbDensity(
     probabilityDensity,
     speedUpPerYear
@@ -110,18 +124,15 @@ export const ParametersContextProvider = ({
       value={{
         agiDistribution,
         aisDistribution,
-        speedUpEveryYear,
-        speedUpFraction,
         agiProb,
         agiWrongProb,
         aisProb,
+        speedUpFactors,
         setAgiProb,
         setAgiWrongProb,
         setAisProb,
         setAgiDistribution,
         setAisDistribution,
-        setSpeedUpEveryYear,
-        setSpeedUpFraction,
         probabilityDensityAGI,
         probabilityDensityAIS,
         probabilityDensity,

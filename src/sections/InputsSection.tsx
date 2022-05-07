@@ -26,8 +26,8 @@ const InputsSection = (): JSX.Element => {
     <>
       <h2>Your beliefs about AGI and AGI safety</h2>
       <p>
-        First, describe how you think AGI would go without AGI safety existing
-        at all.
+        First, describe how you think AGI would go{" "}
+        <i>without AGI safety existing at all</i>.
       </p>
       <Row>
         <Col sm={12} md={4}>
@@ -47,7 +47,7 @@ const InputsSection = (): JSX.Element => {
       </Row>
       <PiecewiseLinearDistributionCreator
         setDistribution={setAgiDistribution}
-        text="What is the probability that AGI happens before any given year?"
+        text="What is the probability that AGI that goes wrong happens before any given year?"
         distribution={agiDistribution}
         area={agiProb * agiWrongProb}
       />
@@ -55,6 +55,13 @@ const InputsSection = (): JSX.Element => {
       <p>
         Now describe if and when you think AGI safety will be ready to prevent
         AGI from going wrong.
+      </p>
+      <p>
+        <i>
+          Note: In this estimation, AGI happening and AGI safety being solved
+          are supposed to be independent events. AGI safety being prevented by
+          AGI happening first should not be considered here.
+        </i>
       </p>
       <Row>
         <Col sm={12} md={4}>
@@ -68,7 +75,7 @@ const InputsSection = (): JSX.Element => {
 
       <PiecewiseLinearDistributionCreator
         setDistribution={setAisDistribution}
-        text="What is the probability that AGI safety is ready at any given year?"
+        text="What is the probability that AGI safety has already been solved at any given year?"
         distribution={aisDistribution}
         area={aisProb}
       />

@@ -1,6 +1,6 @@
 import { Slider } from "@mui/material";
 import _ from "lodash";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Row } from "react-bootstrap";
 import {
   CartesianGrid,
@@ -30,14 +30,24 @@ type PiecewiseLinearDistributionCreatorProps = {
 const PiecewiseLinearDistributionCreator = (
   props: PiecewiseLinearDistributionCreatorProps
 ): JSX.Element => {
-  const { setDistribution, distribution: distribution, text } = props;
+  const { setDistribution, distribution, text } = props;
+
+  const [localDistribution, setLocalDistribution] =
+    useState<PiecewiseDistributionParameters>(distribution);
+
+  useEffect(() => {
+    if (arrayEquals(distribution.xCoordinates, localDistribution.xCoordinates))
+      return;
+
+    setLocalDistribution(distribution);
+  }, [distribution]);
 
   const displayedArea = props.area ? props.area : 1;
 
   const data = piecewiseLinearCumulativeDistribution(
-    distribution.xCoordinates,
-    distribution.yCoordinates,
-    distribution.length,
+    localDistribution.xCoordinates,
+    localDistribution.yCoordinates,
+    localDistribution.length,
     displayedArea
   ).map((v, i) => {
     return { year: yearsNames[i], p: v.toPrecision(2) };
@@ -46,32 +56,35 @@ const PiecewiseLinearDistributionCreator = (
   const [sliders, setSliders] = useState<number[]>(distribution.xCoordinates);
 
   const updateDistribution = useCallback(
-    _.throttle((newSliders: number[]) => {
-      const sortedNewSliders = newSliders.sort((a, b) => a - b);
-      const newDistribution = { ...distribution };
-      newDistribution.xCoordinates = sortedNewSliders;
-      setDistribution(newDistribution);
-    }, 100),
+    _.debounce(() => {
+      setDistribution(localDistribution);
+    }, 1000),
     []
   );
 
   const handleChange = (e: Event, newSliders: number[]) => {
     if (arrayEquals(newSliders, sliders)) return;
     setSliders([...newSliders]);
-    updateDistribution(newSliders);
+
+    const sortedNewSliders = newSliders.sort((a, b) => a - b);
+    const newDistribution = { ...distribution };
+    newDistribution.xCoordinates = sortedNewSliders;
+    setLocalDistribution(newDistribution);
+
+    updateDistribution();
   };
 
   return (
     <>
       <Row>
-        <p>{text}</p>
+        <p className="slider-title">{text}</p>
         <div className="linechart-container">
           <ResponsiveContainer>
             <LineChart
               width={500}
               height={300}
               data={data}
-              margin={{ top: 10, right: 20, bottom: 5, left: 0 }}
+              margin={{ top: 0, right: 20, bottom: 5, left: 0 }}
             >
               <Line type="linear" dataKey="p" stroke="blue" dot={false} />
               <CartesianGrid stroke="lightgray" strokeDasharray="5 5" />
@@ -88,7 +101,7 @@ const PiecewiseLinearDistributionCreator = (
             onChange={handleChange}
             min={0}
             max={nbYears - 1}
-            step={0.001}
+            step={0.25}
           />
         </div>
       </Row>

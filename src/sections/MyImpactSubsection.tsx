@@ -4,6 +4,7 @@ import { Col, Row } from "react-bootstrap";
 import IncreaseInput from "../components/IncreaseInput";
 import ProbabilityInput from "../components/ProbabilityInput";
 import { useParametersContext } from "../ParametersContext";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
 const MyImpactSubsection = (): JSX.Element => {
   const { speedUpFactorsChains, currentSpeedUpChain, setCurrentSpeedUpChain } =
@@ -12,7 +13,10 @@ const MyImpactSubsection = (): JSX.Element => {
   console.log(speedUpFactorsChains.map((chain, i) => chain.title));
   return (
     <>
-      <p>Finally, describe how you speed up AGI safety work.</p>
+      <p>
+        <ArrowRightIcon />
+        Finally, describe how you speed up AGI safety work.
+      </p>
       <Select
         value={currentSpeedUpChain}
         onChange={(v) => {

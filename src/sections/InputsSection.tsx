@@ -1,3 +1,4 @@
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 import PiecewiseLinearDistributionCreator from "../components/DistributionCreator";
@@ -22,7 +23,7 @@ const InputsSection = (): JSX.Element => {
     <>
       <h2>Your beliefs about AGI and AGI safety</h2>
       <p>
-        First, describe how you think AGI would go{" "}
+        <ArrowRightIcon /> First, describe how you think AGI would go{" "}
         <i>without AGI safety existing at all</i>.
       </p>
       <Row>
@@ -49,8 +50,8 @@ const InputsSection = (): JSX.Element => {
       />
       <br />
       <p>
-        Now describe if and when you think AGI safety will be ready to prevent
-        AGI from going wrong.
+        <ArrowRightIcon /> Now, describe if and when you think AGI safety will
+        be ready to prevent AGI from going wrong.
       </p>
       <p>
         <i>

@@ -3,8 +3,22 @@
 }
 
 .results-section {
-  background-color: #343A40;
+  background-color: #343a40;
   color: white;
   width: 100%;
   padding: 1em;
+}
+.footer {
+  font-size: 0.8em;
+  color: lightgray;
+  background-color: #343a40;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+}
+
+a.dark {
+  color: lightgray;
 }

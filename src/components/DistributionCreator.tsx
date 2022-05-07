@@ -1,4 +1,5 @@
-import { debounce, Slider } from "@mui/material";
+import { Slider } from "@mui/material";
+import _ from "lodash";
 import React, { useCallback, useState } from "react";
 import { Row } from "react-bootstrap";
 import {
@@ -16,7 +17,7 @@ import {
   arrayEquals,
   piecewiseLinearCumulativeDistribution,
 } from "../utils/mathUtils";
-import _ from "lodash";
+import "./DistributionCreator.css";
 
 type PiecewiseLinearDistributionCreatorProps = {
   setDistribution: (v: PiecewiseDistributionParameters) => void;
@@ -64,7 +65,7 @@ const PiecewiseLinearDistributionCreator = (
     <>
       <Row>
         <p>{text}</p>
-        <div style={{ width: "100%", height: "8em" }}>
+        <div className="linechart-container">
           <ResponsiveContainer>
             <LineChart
               width={500}
@@ -80,7 +81,7 @@ const PiecewiseLinearDistributionCreator = (
             </LineChart>
           </ResponsiveContainer>
         </div>
-        <div style={{ marginLeft: "4em", marginRight: "1em", width: "100%" }}>
+        <div className="slider-container">
           <Slider
             track={false}
             value={sliders}

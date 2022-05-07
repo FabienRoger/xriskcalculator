@@ -1,8 +1,8 @@
-import { Gradient } from "@mui/icons-material";
-import React, { useContext, useState } from "react";
+import React from "react";
 import HeatMap from "react-heatmap-grid";
-import { yearsNames, nbYears } from "../utils/constants";
+import { nbYears, yearsNames } from "../utils/constants";
 import { max, min, probToDisplayedProb, transpose } from "../utils/mathUtils";
+import "./DensityHeatMap.css";
 
 type DensityHeatMapProps = {
   data: number[][];
@@ -48,35 +48,10 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
   };
 
   return (
-    <div
-      style={{
-        paddingBottom: "2em",
-        paddingTop: "1em",
-        paddingLeft: "1em",
-        display: "flex",
-        flexDirection: "row",
-      }}
-    >
+    <div className="heatmap-container">
       <div style={{ position: "relative" }}>
-        <p
-          style={{
-            bottom: "-2em",
-            left: "5em",
-            position: "absolute",
-          }}
-        >
-          When AGI safety becomes ready
-        </p>
-        <p
-          style={{
-            bottom: "8em",
-            left: "-5em",
-            position: "absolute",
-            transform: "rotate(-90deg)",
-          }}
-        >
-          When AGI happens
-        </p>
+        <p className="heatmap-xlabel">When AGI safety becomes ready</p>
+        <p className="heatmap-ylabel">When AGI happens</p>
         <HeatMap
           xLabels={yearsNames}
           yLabels={yLabels}
@@ -96,22 +71,16 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
         />
       </div>
       <div
+        className="colobar"
         style={{
-          marginLeft: "30px",
           height: `${nbYears * cellSize * 0.7}px`,
-          width: "10px",
-          border: "1px solid lightgray",
           background: colorBarGradient,
-          flexShrink: 0,
         }}
       />
       <div
+        className="colarbar-labels-container"
         style={{
-          marginLeft: "5px",
           height: `${nbYears * cellSize * 0.7}px`,
-          display: "flex",
-          flexDirection: "column",
-          fontSize: "0.7rem",
         }}
       >
         <p style={{ marginBottom: "auto" }}>p = {displayedMaxProb}</p>

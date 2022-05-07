@@ -18,12 +18,14 @@ type ParametersContext = {
   agiWrongProb: number;
   agiDistribution: PiecewiseDistributionParameters;
   aisDistribution: PiecewiseDistributionParameters;
-  speedUpFactors: SpeedUpFactor[];
+  currentSpeedUpChain: number;
+  speedUpFactorsChains: SpeedUpFactorChain[];
   setAgiProb: Dispatch<SetStateAction<number>>;
   setAgiWrongProb: Dispatch<SetStateAction<number>>;
   setAisProb: Dispatch<SetStateAction<number>>;
   setAgiDistribution: Dispatch<SetStateAction<PiecewiseDistributionParameters>>;
   setAisDistribution: Dispatch<SetStateAction<PiecewiseDistributionParameters>>;
+  setCurrentSpeedUpChain: Dispatch<SetStateAction<number>>;
   probabilityDensityAGI: number[];
   probabilityDensityAIS: number[];
   probabilityDensity: number[][];
@@ -37,6 +39,12 @@ type SpeedUpFactor = {
   question: string;
   type: "%prob" | "%increase";
   state: [number, Dispatch<SetStateAction<number>>];
+};
+
+type SpeedUpFactorChain = {
+  title: string;
+  description: string;
+  speedUpFactors: SpeedUpFactor[];
 };
 
 const [useParametersContext, ParametersContextProviderBlank] =
@@ -66,16 +74,24 @@ export const ParametersContextProvider = ({
       length: nbYears,
       area: 1,
     });
-  const speedUpFactors: SpeedUpFactor[] = [
+  const [currentSpeedUpChain, setCurrentSpeedUpChain] = useState<number>(0);
+  const speedUpFactorsChains: SpeedUpFactorChain[] = [
     {
-      question: "What fraction of the work is your org. doing?",
-      type: "%prob",
-      state: useState<number>(0.01),
-    },
-    {
-      question: "How much do you speed it up (%)",
-      type: "%increase",
-      state: useState<number>(0.005),
+      title: "You increase the speed at which an organisation works",
+      description: `Describe what fraction of the AGI safety work your organization is doing,
+        and how much you think you will speedup your organization's progress in this direction`,
+      speedUpFactors: [
+        {
+          question: "What fraction of the work is your org. doing?",
+          type: "%prob",
+          state: useState<number>(0.01),
+        },
+        {
+          question: "How much do you speed it up?",
+          type: "%increase",
+          state: useState<number>(0.005),
+        },
+      ],
     },
   ];
 
@@ -100,7 +116,9 @@ export const ParametersContextProvider = ({
     probabilityDensityAIS
   ); // probabilityDensity[agiYear][aisYear]
 
-  const speedUp = speedUpFactors.reduce(
+  const speedUp = speedUpFactorsChains[
+    currentSpeedUpChain
+  ].speedUpFactors.reduce(
     (previousValue, currentValue) => previousValue * currentValue.state[0],
     1
   );
@@ -127,12 +145,14 @@ export const ParametersContextProvider = ({
         agiProb,
         agiWrongProb,
         aisProb,
-        speedUpFactors,
+        currentSpeedUpChain,
+        speedUpFactorsChains,
         setAgiProb,
         setAgiWrongProb,
         setAisProb,
         setAgiDistribution,
         setAisDistribution,
+        setCurrentSpeedUpChain,
         probabilityDensityAGI,
         probabilityDensityAIS,
         probabilityDensity,

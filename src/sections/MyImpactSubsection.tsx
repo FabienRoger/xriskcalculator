@@ -60,7 +60,7 @@ const MyImpactSubsection = (): JSX.Element => {
               key: `value${i}`,
             };
             return (
-              <Col sm={12} md={4} key={`col${i}`}>
+              <Col sm={12} md={4} key={`col${i} ${currentSpeedUpChain}`}>
                 {
                   {
                     "%prob": <ProbabilityInput {...props} />,

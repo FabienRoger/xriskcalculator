@@ -39,6 +39,7 @@ type SpeedUpFactor = {
   question: string;
   type: "%prob" | "%increase";
   state: [number, Dispatch<SetStateAction<number>>];
+  inverted?: boolean;
 };
 
 type SpeedUpFactorChain = {
@@ -61,7 +62,6 @@ export const ParametersContextProvider = ({
   const [agiDistribution, setAgiDistribution] =
     useState<PiecewiseDistributionParameters>({
       xCoordinates: [0, 5, 10, nbYears - 1],
-      // xCoordinates: [10, 10, 10, 10],
       yCoordinates: uniformlyDistributedPoints(distributionPieces),
       length: nbYears,
       area: 1,
@@ -69,7 +69,6 @@ export const ParametersContextProvider = ({
   const [aisDistribution, setAisDistribution] =
     useState<PiecewiseDistributionParameters>({
       xCoordinates: [2, 8, 14, nbYears - 1],
-      // xCoordinates: [10, 10, 10, 10],
       yCoordinates: uniformlyDistributedPoints(distributionPieces),
       length: nbYears,
       area: 1,
@@ -90,6 +89,57 @@ export const ParametersContextProvider = ({
           question: "How much do you speed it up?",
           type: "%increase",
           state: useState<number>(0.005),
+        },
+      ],
+    },
+    {
+      title: "You are an independent researcher",
+      description: `Describe what fraction of the AGI safety progress your field will be responsible for,
+        and how much you think you will speedup your field's progress`,
+      speedUpFactors: [
+        {
+          question: "For what fraction of the progress will you field do?",
+          type: "%prob",
+          state: useState<number>(0.01),
+        },
+        {
+          question: "How much do you speed it up?",
+          type: "%increase",
+          state: useState<number>(0.005),
+        },
+      ],
+    },
+    {
+      title: "You are creating an AGI safety organization",
+      description: `Describe how likely you are to be successful at creating this new organization,
+      how much it will speed up AGI safety progress if it is successful, 
+      how likely it is that you are creating an organization that would have existed otherwise
+      (that somebody would have created an organization very similar to yours), 
+      and how much you think that you prevent another organization with a similar impact
+      on AGI safety from existing (for example, by taking funds it would have used).`,
+      speedUpFactors: [
+        {
+          question: "How likely is it that you will be successful",
+          type: "%prob",
+          state: useState<number>(0.5),
+        },
+        {
+          question: "How much will your org. speed up the progress?",
+          type: "%increase",
+          state: useState<number>(0.05),
+        },
+        {
+          question: "How likely is it that it would have existed?",
+          type: "%prob",
+          state: useState<number>(0.4),
+          inverted: true,
+        },
+        {
+          question:
+            "How likely is it that you prevent a similar org. from existing?",
+          type: "%prob",
+          state: useState<number>(0.4),
+          inverted: true,
         },
       ],
     },
@@ -118,10 +168,11 @@ export const ParametersContextProvider = ({
 
   const speedUp = speedUpFactorsChains[
     currentSpeedUpChain
-  ].speedUpFactors.reduce(
-    (previousValue, currentValue) => previousValue * currentValue.state[0],
-    1
-  );
+  ].speedUpFactors.reduce((previousValue, currentValue) => {
+    const [value, setValue] = currentValue.state;
+    const multiplicativeValue = currentValue.inverted ? 1 - value : value;
+    return previousValue * multiplicativeValue;
+  }, 1);
 
   const speedUpPerYear = constantDistribution(nbYears, speedUp);
   const shiftedProbabilityDensity = shiftProbDensity(

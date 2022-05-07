@@ -7,6 +7,7 @@ import {
   defaultAISProb,
   defaultSpeedUpChain,
   defaultSpeedUpFactorsChains,
+  defaultSpeedUpRange,
 } from "./defaultParameters";
 import { PiecewiseDistributionParameters } from "./types";
 import { distributionPieces, nbYears } from "./utils/constants";
@@ -29,12 +30,14 @@ type ParametersContext = {
   aisDistribution: PiecewiseDistributionParameters;
   currentSpeedUpChain: number;
   speedUpFactorsChains: SpeedUpFactorChain[];
+  speedUpRange: [number, number];
   setAgiProb: Dispatch<SetStateAction<number>>;
   setAgiWrongProb: Dispatch<SetStateAction<number>>;
   setAisProb: Dispatch<SetStateAction<number>>;
   setAgiDistribution: Dispatch<SetStateAction<PiecewiseDistributionParameters>>;
   setAisDistribution: Dispatch<SetStateAction<PiecewiseDistributionParameters>>;
   setCurrentSpeedUpChain: Dispatch<SetStateAction<number>>;
+  setSpeedUpRange: Dispatch<SetStateAction<[number, number]>>;
   probabilityDensityAGI: number[];
   probabilityDensityAIS: number[];
   probabilityDensity: number[][];
@@ -84,7 +87,7 @@ export const ParametersContextProvider = ({
     });
   const [currentSpeedUpChain, setCurrentSpeedUpChain] =
     useState<number>(defaultSpeedUpChain);
-    
+
   const speedUpFactorsChains: SpeedUpFactorChain[] =
     defaultSpeedUpFactorsChains.map((chain) => ({
       title: chain.title,
@@ -98,6 +101,9 @@ export const ParametersContextProvider = ({
         };
       }) as SpeedUpFactor[],
     }));
+
+  const [speedUpRange, setSpeedUpRange] =
+    useState<[number, number]>(defaultSpeedUpRange);
 
   const probabilityDensityAGI = cumulativeToDensity(
     piecewiseLinearCumulativeDistribution(
@@ -128,7 +134,11 @@ export const ParametersContextProvider = ({
     return previousValue * multiplicativeValue;
   }, 1);
 
-  const speedUpPerYear = constantDistribution(nbYears, speedUp);
+  // Equal to speedUp inside the range and 0 outisde the range
+  const speedUpPerYear = constantDistribution(nbYears, speedUp).map((v, i) =>
+    i >= speedUpRange[0] && i <= speedUpRange[1] ? v : 0
+  );
+
   const shiftedProbabilityDensity = shiftProbDensity(
     probabilityDensity,
     speedUpPerYear
@@ -152,12 +162,14 @@ export const ParametersContextProvider = ({
         aisProb,
         currentSpeedUpChain,
         speedUpFactorsChains,
+        speedUpRange,
         setAgiProb,
         setAgiWrongProb,
         setAisProb,
         setAgiDistribution,
         setAisDistribution,
         setCurrentSpeedUpChain,
+        setSpeedUpRange,
         probabilityDensityAGI,
         probabilityDensityAIS,
         probabilityDensity,

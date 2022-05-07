@@ -1,5 +1,6 @@
 import React from "react";
 import { endYear, startYear, yearsInterval } from "../utils/constants";
+import { indexToYear, yearToIndex } from "../utils/converters";
 import ValueInput from "./ValueInput";
 
 type YearInputProps = {
@@ -15,17 +16,13 @@ const YearInput = (props: YearInputProps): JSX.Element => {
     return y >= startYear && y <= endYear;
   };
 
-  const convertor = (y: number) => {
-    return (y - startYear) / yearsInterval;
-  };
-
   return (
     <ValueInput
       setValue={setValue}
       text={text}
-      defaultValue={defaultValue * yearsInterval + startYear}
+      defaultValue={indexToYear(defaultValue)}
       validator={validator}
-      convertor={convertor}
+      convertor={yearToIndex}
     />
   );
 };

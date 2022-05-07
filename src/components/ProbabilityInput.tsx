@@ -1,4 +1,5 @@
 import React from "react";
+import { probToPercent } from "../utils/converters";
 import ValueInput from "./ValueInput";
 
 type ProbabilityInputProps = {
@@ -14,17 +15,13 @@ const ProbabilityInput = (props: ProbabilityInputProps): JSX.Element => {
     return 0 <= p && p <= 100;
   };
 
-  const convertor = (p: number) => {
-    return p / 100;
-  };
-
   return (
     <ValueInput
       setValue={setValue}
       text={`${text} (%)`}
-      defaultValue={defaultValue * 100}
+      defaultValue={probToPercent(defaultValue)}
       validator={validator}
-      convertor={convertor}
+      convertor={probToPercent}
     />
   );
 };

@@ -1,14 +1,29 @@
-import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { MenuItem, Select, SelectChangeEvent, Slider } from "@mui/material";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 import IncreaseInput from "../components/IncreaseInput";
 import ProbabilityInput from "../components/ProbabilityInput";
 import { useParametersContext } from "../ParametersContext";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import { min, range } from "../utils/mathUtils";
+import { nbYears } from "../utils/constants";
+import { indexToYear } from "../utils/converters";
 
 const MyImpactSubsection = (): JSX.Element => {
-  const { speedUpFactorsChains, currentSpeedUpChain, setCurrentSpeedUpChain } =
-    useParametersContext();
+  const {
+    speedUpFactorsChains,
+    currentSpeedUpChain,
+    setCurrentSpeedUpChain,
+    speedUpRange,
+    setSpeedUpRange,
+  } = useParametersContext();
+
+  const sliderMarks = range(nbYears)
+    .filter((i) => i % 4 == 0)
+    .map((i) => ({
+      value: i,
+      label: indexToYear(i),
+    }));
 
   return (
     <>
@@ -57,6 +72,20 @@ const MyImpactSubsection = (): JSX.Element => {
           }
         )}
       </Row>
+      <br />
+      <p>When is this speedup be effective?</p>
+      <div>
+        <Slider
+          value={speedUpRange}
+          onChange={(e: Event, newRange: number[]) => {
+            setSpeedUpRange([Math.min(...newRange), Math.max(...newRange)]);
+          }}
+          min={0}
+          max={nbYears - 1}
+          step={1}
+          marks={sliderMarks}
+        />
+      </div>
     </>
   );
 };

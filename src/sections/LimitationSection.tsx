@@ -21,11 +21,6 @@ const LimitationSection = (): JSX.Element => {
           the final result.
         </li>
         <li>
-          This tool assumes that you speed up AGI safety progress at a constant
-          rate throughout the century. This is widely inaccurate if you don't
-          expect to work on the problem the whole time.
-        </li>
-        <li>
           This tool assumes that you speed up AGI safety progress with no
           uncertainty. This is widely inaccurate if you engage in actions with a
           high variance in outcome and that you are a significant player in AGI
@@ -34,10 +29,10 @@ const LimitationSection = (): JSX.Element => {
         <li>This tool mainly focuses on technical.</li>
         <li>
           There might be a bug somewhere. If the results seem completely wrong,
-          it may be that I screwed up. (As of now, there isn't a lot of tests to
+          it may be that I screwed up. As of now, there isn't a lot of tests to
           check that I did everything correctly. Please tell me if you want to
           use this tool to make any significant decision so that I improve its
-          robustness.)
+          robustness.
         </li>
         <li>
           [Many more incorrect assumptions... Feel free to add the by doing a

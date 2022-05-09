@@ -22,10 +22,10 @@ const valueToCol = (
 
   if (val > 0) {
     const lightness = (norm - val) / norm;
-    return `hsl(233.3,${saturation},${60 + Math.floor(40 * lightness)}%)`;
+    return `hsl(233.3,${saturation},${60 + Math.round(40 * lightness)}%)`;
   } else {
     const lightness = (norm + val) / norm;
-    return `hsl(6.7,${saturation}, ${60 + Math.floor(40 * lightness)}%)`;
+    return `hsl(6.7,${saturation}, ${60 + Math.round(40 * lightness)}%)`;
   }
 };
 

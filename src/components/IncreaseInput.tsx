@@ -1,5 +1,5 @@
 import React from "react";
-import { probToPercent } from "../utils/converters";
+import { percentToProb, probToPercent } from "../utils/converters";
 import ValueInput from "./ValueInput";
 
 type IncreaseInputInputProps = {
@@ -16,7 +16,7 @@ const IncreaseInput = (props: IncreaseInputInputProps): JSX.Element => {
       setValue={setValue}
       text={`${text} (%)`}
       defaultValue={probToPercent(defaultValue)}
-      convertor={probToPercent}
+      convertor={percentToProb}
       validator={(v: number): boolean => {
         return v >= 0;
       }}

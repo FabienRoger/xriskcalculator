@@ -129,7 +129,7 @@ export const ParametersContextProvider = ({
   const speedUp = speedUpFactorsChains[
     currentSpeedUpChain
   ].speedUpFactors.reduce((previousValue, currentValue) => {
-    const [value, setValue] = currentValue.state;
+    const [value, _] = currentValue.state;
     const multiplicativeValue = currentValue.inverted ? 1 - value : value;
     return previousValue * multiplicativeValue;
   }, 1);

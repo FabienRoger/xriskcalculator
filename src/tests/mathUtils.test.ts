@@ -4,7 +4,7 @@ import {
   triangleDistribution,
   piecewiseLinearDistribution,
   uniformDistribution,
-} from "./mathUtils";
+} from "../utils/mathUtils";
 
 test("test to cumulative", () => {
   const cumulate = densityToCumulative([0.1, 0.2, 0.2]);

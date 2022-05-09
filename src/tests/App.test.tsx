@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
-import App from "./App";
-import { defaultAGIProb } from "./defaultParameters";
-import { probToPercent } from "./utils/converters";
+import App from "../App";
+import { defaultAGIProb } from "../defaultParameters";
+import { probToPercent } from "../utils/converters";
 
 const expectToBeProbability = (p: number) => {
   expect(p).toBeGreaterThan(0);

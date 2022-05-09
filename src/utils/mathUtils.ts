@@ -8,7 +8,7 @@ export const arrayEquals = (a: any[], b: any[]): boolean => {
   return a.length === b.length && a.every((val, index) => val === b[index]);
 };
 
-export const empty2DArray = (cols: number, rows: number): number[][] => {
+export const zeros2DArray = (cols: number, rows: number): number[][] => {
   return Array(rows)
     .fill(undefined)
     .map(() => Array(cols).fill(0));
@@ -28,7 +28,7 @@ export const uniformlyDistributedPoints = (segments: number): number[] => {
 
 export const transpose = (array: number[][]): number[][] => {
   const maxI = array.length - 1;
-  return empty2DArray(array.length, array[0].length).map((subarray, i) =>
+  return zeros2DArray(array.length, array[0].length).map((subarray, i) =>
     subarray.map((_, j) => array[maxI - i][j])
   );
 };
@@ -152,7 +152,7 @@ export const piecewiseLinearCumulativeDistribution = (
         (1 - alpha) * fullYCoordinates[leftI];
       return r;
     });
-    
+
   for (let i = 0; i < result.length; i++) {
     result[i] *= totalArea;
   }
@@ -164,7 +164,7 @@ export const subtract = (
   array1: number[][],
   array2: number[][]
 ): number[][] => {
-  const result = empty2DArray(array1.length, array1[0].length).map(
+  const result = zeros2DArray(array1.length, array1[0].length).map(
     (subarray, i) =>
       subarray.map((_, j) => {
         return array1[i][j] - array2[i][j];

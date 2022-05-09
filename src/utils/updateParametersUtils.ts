@@ -2,7 +2,7 @@ import { nbYears } from "./constants";
 import {
   cumulativeToDensity,
   densityToCumulative,
-  empty2DArray,
+  zeros2DArray,
   interpolate,
 } from "./mathUtils";
 
@@ -10,7 +10,7 @@ export const shiftProbDensity = (
   density: number[][],
   speedupPerYear: number[]
 ): number[][] => {
-  let result: number[][] = empty2DArray(nbYears, nbYears);
+  let result: number[][] = zeros2DArray(nbYears, nbYears);
 
   for (let agiYear = 0; agiYear < nbYears; agiYear++) {
     const cumulativeAISProgress = densityToCumulative(density[agiYear]);
@@ -21,10 +21,12 @@ export const shiftProbDensity = (
 
     let aisProgress = 0; // Mesured in year index
     for (let aisYear = 0; aisYear < nbYears; aisYear++) {
+      aisProgress += speedupPerYear[aisYear];
+
       shiftedCumulativeAISProgress.push(
         interpolate(cumulativeAISProgress, aisProgress, maxAISProgress)
       );
-      aisProgress += 1 + speedupPerYear[aisYear];
+      aisProgress++;
     }
 
     result[agiYear] = cumulativeToDensity(shiftedCumulativeAISProgress);

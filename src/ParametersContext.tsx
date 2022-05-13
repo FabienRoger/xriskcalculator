@@ -38,6 +38,7 @@ type ParametersContext = {
   setAisDistribution: Dispatch<SetStateAction<PiecewiseDistributionParameters>>;
   setCurrentSpeedUpChain: Dispatch<SetStateAction<number>>;
   setSpeedUpRange: Dispatch<SetStateAction<[number, number]>>;
+  speedup: number;
   probabilityDensityAGI: number[];
   probabilityDensityAIS: number[];
   probabilityDensity: number[][];
@@ -126,7 +127,7 @@ export const ParametersContextProvider = ({
     probabilityDensityAIS
   ); // probabilityDensity[agiYear][aisYear]
 
-  const speedUp = speedUpFactorsChains[
+  const speedup = speedUpFactorsChains[
     currentSpeedUpChain
   ].speedUpFactors.reduce((previousValue, currentValue) => {
     const [value, _] = currentValue.state;
@@ -135,7 +136,7 @@ export const ParametersContextProvider = ({
   }, 1);
 
   // Equal to speedUp inside the range and 0 outisde the range
-  const speedUpPerYear = constantDistribution(nbYears, speedUp).map((v, i) =>
+  const speedUpPerYear = constantDistribution(nbYears, speedup).map((v, i) =>
     i >= speedUpRange[0] && i <= speedUpRange[1] ? v : 0
   );
 
@@ -170,6 +171,7 @@ export const ParametersContextProvider = ({
         setAisDistribution,
         setCurrentSpeedUpChain,
         setSpeedUpRange,
+        speedup,
         probabilityDensityAGI,
         probabilityDensityAIS,
         probabilityDensity,

@@ -1,13 +1,13 @@
-import { MenuItem, Select, SelectChangeEvent, Slider } from "@mui/material";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import { MenuItem, Select, Slider } from "@mui/material";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 import IncreaseInput from "../components/IncreaseInput";
 import ProbabilityInput from "../components/ProbabilityInput";
 import { useParametersContext } from "../ParametersContext";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import { min, range } from "../utils/mathUtils";
 import { nbYears } from "../utils/constants";
 import { indexToYear } from "../utils/converters";
+import { increaseToDisplayedIncrease, range } from "../utils/mathUtils";
 
 const MyImpactSubsection = (): JSX.Element => {
   const {
@@ -16,6 +16,7 @@ const MyImpactSubsection = (): JSX.Element => {
     setCurrentSpeedUpChain,
     speedUpRange,
     setSpeedUpRange,
+    speedup,
   } = useParametersContext();
 
   const sliderMarks = range(nbYears)
@@ -73,7 +74,8 @@ const MyImpactSubsection = (): JSX.Element => {
         )}
       </Row>
       <br />
-      <p>When is this speedup be effective?</p>
+      <p>Resulting speedup: +{increaseToDisplayedIncrease(speedup)}%</p>
+      <p>When will this speedup be effective?</p>
       <div>
         <Slider
           value={speedUpRange}

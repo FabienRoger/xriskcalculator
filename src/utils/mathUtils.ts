@@ -4,6 +4,11 @@ export const probToDisplayedProb = (prob: number): string => {
   return Math.abs(prob) < 1e-2 ? prob.toExponential(1) : prob.toPrecision(2);
 };
 
+export const increaseToDisplayedIncrease = (increase: number): string => {
+  const i = 100 * increase; // Convert to %
+  return (Math.abs(i) < 1e-2 || Math.abs(i) > 1e3) ? i.toExponential(1) : i.toPrecision(3);
+};
+
 export const arrayEquals = (a: any[], b: any[]): boolean => {
   return a.length === b.length && a.every((val, index) => val === b[index]);
 };

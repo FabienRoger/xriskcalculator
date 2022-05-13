@@ -11,8 +11,9 @@ const ResultsDetailsSection = (): JSX.Element => {
       <h2>Results' details</h2>
       <p>
         To compute the results, the probability distribution on the left is
-        shifted to the left (by 1/(1+speedup*fraction_of_the_work)). The
-        difference between the old and the new one is displayed on the right.
+        shifted to the left (by 1/(1+speedup), where the speedup is relevant).
+        The difference between the old and the new one is displayed on the
+        right.
       </p>
       <Row>
         <Col></Col>

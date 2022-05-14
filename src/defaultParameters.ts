@@ -20,7 +20,7 @@ export const defaultSpeedUpFactorsChains = [
         defaultValue: 0.01,
       },
       {
-        question: "How much do you speed it up?",
+        question: "How much do you speedup AGI safety?",
         type: "%increase",
         defaultValue: 0.005,
       },

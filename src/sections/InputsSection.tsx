@@ -64,7 +64,7 @@ const InputsSection = (): JSX.Element => {
         <Col sm={12} md={4}>
           <ProbabilityInput
             setValue={setAisProb}
-            text={"How likely is it to work?"}
+            text={"How likely is AGI safety to work?"}
             defaultValue={aisProb}
           />
         </Col>

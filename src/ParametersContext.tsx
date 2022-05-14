@@ -106,12 +106,13 @@ export const ParametersContextProvider = ({
   const [speedUpRange, setSpeedUpRange] =
     useState<[number, number]>(defaultSpeedUpRange);
 
+    const agiAndAgiWrongProb = agiProb * agiWrongProb;
   const probabilityDensityAGI = cumulativeToDensity(
     piecewiseLinearCumulativeDistribution(
       agiDistribution.xCoordinates,
       agiDistribution.yCoordinates,
       agiDistribution.length,
-      agiProb * agiWrongProb
+      agiAndAgiWrongProb,
     )
   );
   const probabilityDensityAIS = cumulativeToDensity(
@@ -148,8 +149,10 @@ export const ParametersContextProvider = ({
     shiftedProbabilityDensity,
     probabilityDensity
   );
-  const doomProbWithoutYou = probDoom(probabilityDensity);
-  const doomProbWithYou = probDoom(shiftedProbabilityDensity);
+  
+  const agiWithNoSolutionProb = Math.max(agiAndAgiWrongProb - aisProb, 0);
+  const doomProbWithoutYou = probDoom(probabilityDensity) + agiWithNoSolutionProb;
+  const doomProbWithYou = probDoom(shiftedProbabilityDensity) + agiWithNoSolutionProb;
 
   const saveProb = doomProbWithoutYou - doomProbWithYou;
 

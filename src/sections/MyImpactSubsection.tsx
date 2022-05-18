@@ -1,4 +1,3 @@
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { MenuItem, Select, Slider } from "@mui/material";
 import React from "react";
 import { Col, Row } from "react-bootstrap";

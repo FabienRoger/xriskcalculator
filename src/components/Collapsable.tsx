@@ -1,9 +1,10 @@
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import React, { useState } from "react";
+import "./Collapsable.css";
 
 type CollapsableProps = {
-  children: JSX.Element[];
+  children: JSX.Element[] | JSX.Element;
   text: string | JSX.Element;
   optional?: boolean;
 };
@@ -19,7 +20,7 @@ const Collapsable = (props: CollapsableProps): JSX.Element => {
     ? "optional-collapsable-head collapsable-head"
     : "collapsable-head";
 
-  const fullText = <></>;
+  const optionalTag = optional ? <>(Optional) </> : <></>;
 
   return (
     <>
@@ -31,6 +32,7 @@ const Collapsable = (props: CollapsableProps): JSX.Element => {
                 setCollapsed(false);
               }}
             />
+            {optionalTag}
             {text}
           </p>
         </>
@@ -42,6 +44,7 @@ const Collapsable = (props: CollapsableProps): JSX.Element => {
                 setCollapsed(true);
               }}
             />
+            {optionalTag}
             {text}
           </p>
 

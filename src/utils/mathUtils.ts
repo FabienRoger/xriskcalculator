@@ -6,7 +6,17 @@ export const probToDisplayedProb = (prob: number): string => {
 
 export const increaseToDisplayedIncrease = (increase: number): string => {
   const i = 100 * increase; // Convert to %
-  return (Math.abs(i) < 1e-2 || Math.abs(i) > 1e3) ? i.toExponential(1) : i.toPrecision(3);
+  return Math.abs(i) < 1e-2 || Math.abs(i) > 1e3
+    ? i.toExponential(1)
+    : i.toPrecision(3);
+};
+
+export const numberToDisplay = (n: number): string => {
+  return n >= 10 && n <= 1e5
+    ? n.toFixed(0)
+    : n >= 0.01
+    ? n.toPrecision(1)
+    : n.toExponential(1);
 };
 
 export const arrayEquals = (a: any[], b: any[]): boolean => {

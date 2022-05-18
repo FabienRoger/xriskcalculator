@@ -10,7 +10,7 @@ const ProbabilityResult = (props: {
   const displayedProb = probToDisplayedProb(prob);
 
   return (
-    <Box>
+    <Box className="result-box">
       {text} <br /> p = <strong>{displayedProb}</strong>
     </Box>
   );

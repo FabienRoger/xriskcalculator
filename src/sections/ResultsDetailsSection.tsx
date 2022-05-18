@@ -16,10 +16,6 @@ const ResultsDetailsSection = (): JSX.Element => {
         right.
       </p>
       <Row>
-        <Col></Col>
-        <Col></Col>
-      </Row>
-      <Row>
         <Col>
           <p>
             Was is the probability that AGI safety is ready on year x and that a

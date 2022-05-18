@@ -31,6 +31,7 @@ type ParametersContext = {
   currentSpeedUpChain: number;
   speedUpFactorsChains: SpeedUpFactorChain[];
   speedUpRange: [number, number];
+  livesPreventByWrongAGI: number | undefined;
   setAgiProb: Dispatch<SetStateAction<number>>;
   setAgiWrongProb: Dispatch<SetStateAction<number>>;
   setAisProb: Dispatch<SetStateAction<number>>;
@@ -38,6 +39,7 @@ type ParametersContext = {
   setAisDistribution: Dispatch<SetStateAction<PiecewiseDistributionParameters>>;
   setCurrentSpeedUpChain: Dispatch<SetStateAction<number>>;
   setSpeedUpRange: Dispatch<SetStateAction<[number, number]>>;
+  setLivesPreventedByWrongAGI: Dispatch<SetStateAction<number | undefined>>;
   speedup: number;
   probabilityDensityAGI: number[];
   probabilityDensityAIS: number[];
@@ -46,6 +48,7 @@ type ParametersContext = {
   doomProbWithoutYou: number;
   doomProbWithYou: number;
   saveProb: number;
+  expectedLivesSaved: number | undefined;
 };
 
 type SpeedUpFactor = {
@@ -106,13 +109,13 @@ export const ParametersContextProvider = ({
   const [speedUpRange, setSpeedUpRange] =
     useState<[number, number]>(defaultSpeedUpRange);
 
-    const agiAndAgiWrongProb = agiProb * agiWrongProb;
+  const agiAndAgiWrongProb = agiProb * agiWrongProb;
   const probabilityDensityAGI = cumulativeToDensity(
     piecewiseLinearCumulativeDistribution(
       agiDistribution.xCoordinates,
       agiDistribution.yCoordinates,
       agiDistribution.length,
-      agiAndAgiWrongProb,
+      agiAndAgiWrongProb
     )
   );
   const probabilityDensityAIS = cumulativeToDensity(
@@ -149,12 +152,25 @@ export const ParametersContextProvider = ({
     shiftedProbabilityDensity,
     probabilityDensity
   );
-  
+
   const agiWithNoSolutionProb = Math.max(agiAndAgiWrongProb - aisProb, 0);
-  const doomProbWithoutYou = probDoom(probabilityDensity) + agiWithNoSolutionProb;
-  const doomProbWithYou = probDoom(shiftedProbabilityDensity) + agiWithNoSolutionProb;
+  const doomProbWithoutYou =
+    probDoom(probabilityDensity) + agiWithNoSolutionProb;
+  const doomProbWithYou =
+    probDoom(shiftedProbabilityDensity) + agiWithNoSolutionProb;
 
   const saveProb = doomProbWithoutYou - doomProbWithYou;
+
+  // Expected lives saved section
+
+  const [livesPreventByWrongAGI, setLivesPreventedByWrongAGI] = useState<
+    number | undefined
+  >(undefined);
+
+  const expectedLivesSaved =
+    livesPreventByWrongAGI === undefined
+      ? undefined
+      : saveProb * livesPreventByWrongAGI;
 
   return (
     <ParametersContextProviderBlank
@@ -167,6 +183,7 @@ export const ParametersContextProvider = ({
         currentSpeedUpChain,
         speedUpFactorsChains,
         speedUpRange,
+        livesPreventByWrongAGI,
         setAgiProb,
         setAgiWrongProb,
         setAisProb,
@@ -174,6 +191,7 @@ export const ParametersContextProvider = ({
         setAisDistribution,
         setCurrentSpeedUpChain,
         setSpeedUpRange,
+        setLivesPreventedByWrongAGI,
         speedup,
         probabilityDensityAGI,
         probabilityDensityAIS,
@@ -182,6 +200,7 @@ export const ParametersContextProvider = ({
         doomProbWithoutYou,
         doomProbWithYou,
         saveProb,
+        expectedLivesSaved,
       }}
     >
       {children}

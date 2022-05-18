@@ -23,3 +23,7 @@
 a.dark {
   color: lightgray;
 }
+
+.result-box {
+  margin-right: 1em;
+}

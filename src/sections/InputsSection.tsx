@@ -1,10 +1,10 @@
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 import Collapsable from "../components/Collapsable";
 import PiecewiseLinearDistributionCreator from "../components/DistributionCreator";
 import ProbabilityInput from "../components/ProbabilityInput";
 import { useParametersContext } from "../ParametersContext";
+import LivesSavedSection from "./LivesSavedSection";
 import MyImpactSubsection from "./MyImpactSubsection";
 
 const InputsSection = (): JSX.Element => {
@@ -89,6 +89,7 @@ const InputsSection = (): JSX.Element => {
       </Collapsable>
       <br />
       <MyImpactSubsection />
+      <LivesSavedSection />
     </>
   );
 };

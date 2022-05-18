@@ -79,3 +79,4 @@ export const defaultSpeedUpFactorsChains = [
   },
 ];
 export const defaultSpeedUpRange: [number, number] = [2, 10];
+export const defaultLivesPreventByWrongAGI = undefined;

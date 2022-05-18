@@ -2,6 +2,7 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { MenuItem, Select, Slider } from "@mui/material";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
+import Collapsable from "../components/Collapsable";
 import IncreaseInput from "../components/IncreaseInput";
 import ProbabilityInput from "../components/ProbabilityInput";
 import { useParametersContext } from "../ParametersContext";
@@ -27,11 +28,9 @@ const MyImpactSubsection = (): JSX.Element => {
     }));
 
   return (
-    <>
-      <p>
-        <ArrowRightIcon />
-        Finally, describe how you speed up AGI safety work.
-      </p>
+    <Collapsable
+      text={<>Finally, describe how you speed up AGI safety work.</>}
+    >
       <Select
         value={currentSpeedUpChain}
         onChange={(v) => {
@@ -88,7 +87,7 @@ const MyImpactSubsection = (): JSX.Element => {
           marks={sliderMarks}
         />
       </div>
-    </>
+    </Collapsable>
   );
 };
 export default MyImpactSubsection;

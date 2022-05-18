@@ -35,13 +35,6 @@ const PiecewiseLinearDistributionCreator = (
   const [localDistribution, setLocalDistribution] =
     useState<PiecewiseDistributionParameters>(distribution);
 
-  // useEffect(() => {
-  //   if (arrayEquals(distribution.xCoordinates, localDistribution.xCoordinates))
-  //     return;
-
-  //   setLocalDistribution({ ...distribution });
-  // }, [distribution]);
-
   const displayedArea = props.area ? props.area : 1;
 
   const data = piecewiseLinearCumulativeDistribution(

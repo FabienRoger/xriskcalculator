@@ -11,13 +11,21 @@ type CollapsableProps = {
 const Collapsable = (props: CollapsableProps): JSX.Element => {
   const { text, children } = props;
 
-  const [collapsed, setCollapsed] = useState<boolean>(false);
+  const optional = props.optional ? props.optional : false;
+
+  const [collapsed, setCollapsed] = useState<boolean>(optional);
+
+  const className: string = optional
+    ? "optional-collapsable-head collapsable-head"
+    : "collapsable-head";
+
+  const fullText = <></>;
 
   return (
     <>
       {collapsed ? (
         <>
-          <p>
+          <p className={className}>
             <ArrowRightIcon
               onClick={() => {
                 setCollapsed(false);
@@ -28,7 +36,7 @@ const Collapsable = (props: CollapsableProps): JSX.Element => {
         </>
       ) : (
         <>
-          <p>
+          <p className={className}>
             <ArrowDropDownIcon
               onClick={() => {
                 setCollapsed(true);

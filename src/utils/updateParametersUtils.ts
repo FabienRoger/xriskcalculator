@@ -1,9 +1,11 @@
+import { SpeedUpFactorChain } from "../ParametersContext";
 import { nbYears } from "./constants";
 import {
   cumulativeToDensity,
   densityToCumulative,
   zeros2DArray,
   interpolate,
+  transpose,
 } from "./mathUtils";
 
 export const shiftProbDensity = (
@@ -35,6 +37,13 @@ export const shiftProbDensity = (
   return result;
 };
 
+export const shiftProbDensityT = (
+  density: number[][],
+  speedupPerYear: number[]
+): number[][] => {
+  return transpose(shiftProbDensity(transpose(density), speedupPerYear));
+};
+
 export const probDoom = (probabilityDensity: number[][]): number => {
   let result = 0;
   for (let aisYear = 0; aisYear < nbYears; aisYear++) {
@@ -43,4 +52,12 @@ export const probDoom = (probabilityDensity: number[][]): number => {
     }
   }
   return result;
+};
+
+export const speedUpFromChain = (chain: SpeedUpFactorChain): number => {
+  return chain.speedUpFactors.reduce((previousValue, currentValue) => {
+    const [value, _] = currentValue.state;
+    const multiplicativeValue = currentValue.inverted ? 1 - value : value;
+    return previousValue * multiplicativeValue;
+  }, 1);
 };

@@ -2,6 +2,8 @@ import React, { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import {
   defaultAGIDistributionXCoordinates,
   defaultAGIProb,
+  defaultAGISpeedUpFactorsChains,
+  defaultAGISpeedUpRange,
   defaultAGIWrongProb,
   defaultAISDistributionXCoordinates,
   defaultAISProb,
@@ -20,7 +22,12 @@ import {
   subtract,
   uniformlyDistributedPoints,
 } from "./utils/mathUtils";
-import { probDoom, shiftProbDensity } from "./utils/updateParametersUtils";
+import {
+  probDoom,
+  shiftProbDensity,
+  shiftProbDensityT,
+  speedUpFromChain,
+} from "./utils/updateParametersUtils";
 
 type ParametersContext = {
   agiProb: number;
@@ -49,6 +56,15 @@ type ParametersContext = {
   doomProbWithYou: number;
   saveProb: number;
   expectedLivesSaved: number | undefined;
+
+  agiSpeedUpFactorsChains: SpeedUpFactorChain[];
+  currentAgiSpeedUpChain: number;
+  setCurrentAgiSpeedUpChain: Dispatch<SetStateAction<number>>;
+  agiSpeedUpRange: [number, number];
+  setAgiSpeedUpRange: Dispatch<SetStateAction<[number, number]>>;
+  agiSpeedup: number;
+  useAgiSpeedup: boolean;
+  setUseAgiSpeedup: Dispatch<SetStateAction<boolean>>;
 };
 
 type SpeedUpFactor = {
@@ -109,6 +125,27 @@ export const ParametersContextProvider = ({
   const [speedUpRange, setSpeedUpRange] =
     useState<[number, number]>(defaultSpeedUpRange);
 
+  const [currentAgiSpeedUpChain, setCurrentAgiSpeedUpChain] =
+    useState<number>(defaultSpeedUpChain);
+
+  const agiSpeedUpFactorsChains: SpeedUpFactorChain[] =
+    defaultAGISpeedUpFactorsChains.map((chain) => ({
+      title: chain.title,
+      description: chain.description,
+      speedUpFactors: chain.speedUpFactors.map((factor) => {
+        return {
+          question: factor.question,
+          type: factor.type,
+          state: useState<number>(factor.defaultValue),
+          inverted: factor.inverted,
+        };
+      }) as SpeedUpFactor[],
+    }));
+
+  const [agiSpeedUpRange, setAgiSpeedUpRange] = useState<[number, number]>(
+    defaultAGISpeedUpRange
+  );
+
   const agiAndAgiWrongProb = agiProb * agiWrongProb;
   const probabilityDensityAGI = cumulativeToDensity(
     piecewiseLinearCumulativeDistribution(
@@ -131,23 +168,28 @@ export const ParametersContextProvider = ({
     probabilityDensityAIS
   ); // probabilityDensity[agiYear][aisYear]
 
-  const speedup = speedUpFactorsChains[
-    currentSpeedUpChain
-  ].speedUpFactors.reduce((previousValue, currentValue) => {
-    const [value, _] = currentValue.state;
-    const multiplicativeValue = currentValue.inverted ? 1 - value : value;
-    return previousValue * multiplicativeValue;
-  }, 1);
+  const speedup = speedUpFromChain(speedUpFactorsChains[currentSpeedUpChain]);
+  const agiSpeedup = speedUpFromChain(
+    agiSpeedUpFactorsChains[currentAgiSpeedUpChain]
+  );
 
   // Equal to speedUp inside the range and 0 outisde the range
   const speedUpPerYear = constantDistribution(nbYears, speedup).map((v, i) =>
     i >= speedUpRange[0] && i <= speedUpRange[1] ? v : 0
   );
-
-  const shiftedProbabilityDensity = shiftProbDensity(
-    probabilityDensity,
-    speedUpPerYear
+  const agiSpeedUpPerYear = constantDistribution(nbYears, agiSpeedup).map(
+    (v, i) => (i >= agiSpeedUpRange[0] && i <= agiSpeedUpRange[1] ? v : 0)
   );
+
+  const [useAgiSpeedup, setUseAgiSpeedup] = useState<boolean>(false);
+
+  const shiftedProbabilityDensity = useAgiSpeedup
+    ? shiftProbDensityT(
+        shiftProbDensity(probabilityDensity, speedUpPerYear),
+        agiSpeedUpPerYear
+      )
+    : shiftProbDensity(probabilityDensity, speedUpPerYear);
+
   const deltaProbabilityDensity = subtract(
     shiftedProbabilityDensity,
     probabilityDensity
@@ -201,6 +243,15 @@ export const ParametersContextProvider = ({
         doomProbWithYou,
         saveProb,
         expectedLivesSaved,
+
+        agiSpeedUpFactorsChains,
+        currentAgiSpeedUpChain,
+        setCurrentAgiSpeedUpChain,
+        agiSpeedUpRange,
+        setAgiSpeedUpRange,
+        agiSpeedup,
+        useAgiSpeedup,
+        setUseAgiSpeedup,
       }}
     >
       {children}

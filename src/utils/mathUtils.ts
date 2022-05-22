@@ -41,10 +41,16 @@ export const uniformlyDistributedPoints = (segments: number): number[] => {
   return range(segments + 1).map((v) => v / segments);
 };
 
-export const transpose = (array: number[][]): number[][] => {
+export const swapIAxis = (array: number[][]): number[][] => {
   const maxI = array.length - 1;
   return zeros2DArray(array.length, array[0].length).map((subarray, i) =>
     subarray.map((_, j) => array[maxI - i][j])
+  );
+};
+
+export const transpose = (array: number[][]): number[][] => {
+  return zeros2DArray(array[0].length, array.length).map((subarray, i) =>
+    subarray.map((_, j) => array[j][i])
   );
 };
 

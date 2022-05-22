@@ -1,7 +1,7 @@
 import React from "react";
 import HeatMap from "react-heatmap-grid";
 import { nbYears, yearsNames } from "../utils/constants";
-import { max, min, probToDisplayedProb, transpose } from "../utils/mathUtils";
+import { max, min, probToDisplayedProb, swapIAxis } from "../utils/mathUtils";
 import "./DensityHeatMap.css";
 
 type DensityHeatMapProps = {
@@ -79,7 +79,7 @@ export const DensityHeatMap = (props: DensityHeatMapProps) => {
           xLabelsLocation={"bottom"}
           xLabelsVisibility={labelsVisibility}
           height={cellSize}
-          data={transpose(data)}
+          data={swapIAxis(data)}
           squares
           cellStyle={(background, value, min, max, data, x, y) => ({
             background: cellColor(value, x, y),

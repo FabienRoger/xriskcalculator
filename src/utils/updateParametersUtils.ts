@@ -1,5 +1,5 @@
-import { SpeedUpFactorChain } from "../ParametersContext";
 import { nbYears } from "./constants";
+import { SpeedUpFactorChain } from "../ParametersContext";
 import {
   cumulativeToDensity,
   densityToCumulative,
@@ -8,10 +8,14 @@ import {
   transpose,
 } from "./mathUtils";
 
+// nbYears is infered from input to simplify testing
+
 export const shiftProbDensity = (
   density: number[][],
   speedupPerYear: number[]
 ): number[][] => {
+  const nbYears = density.length;
+
   let result: number[][] = zeros2DArray(nbYears, nbYears);
 
   for (let agiYear = 0; agiYear < nbYears; agiYear++) {
@@ -45,6 +49,7 @@ export const shiftProbDensityT = (
 };
 
 export const probDoom = (probabilityDensity: number[][]): number => {
+  const nbYears = probabilityDensity.length;
   let result = 0;
   for (let aisYear = 0; aisYear < nbYears; aisYear++) {
     for (let agiYear = 0; agiYear <= aisYear; agiYear++) {

@@ -1,3 +1,5 @@
+import { transpose } from "./../utils/mathUtils";
+import { expect2DArraysToBeClose } from "./testUtils";
 import {
   cumulativeToDensity,
   densityToCumulative,
@@ -66,4 +68,19 @@ test("piecewise linear and triangular match", () => {
   for (let i = 0; i < fromTriangular.length; i++) {
     expect(fromTriangular[i]).toBeCloseTo(fromPiecewise[i]);
   }
+});
+
+test("transpose works on small arrays", () => {
+  expect2DArraysToBeClose(transpose([[1, 2]]), [[1], [2]]);
+  expect2DArraysToBeClose(transpose([[1], [2]]), [[1, 2]]);
+  expect2DArraysToBeClose(
+    transpose([
+      [1, 2],
+      [3, 4],
+    ]),
+    [
+      [1, 3],
+      [2, 4],
+    ]
+  );
 });

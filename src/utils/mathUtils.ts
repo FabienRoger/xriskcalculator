@@ -23,7 +23,7 @@ export const arrayEquals = (a: any[], b: any[]): boolean => {
   return a.length === b.length && a.every((val, index) => val === b[index]);
 };
 
-export const zeros2DArray = (cols: number, rows: number): number[][] => {
+export const zeros2DArray = (rows: number, cols: number): number[][] => {
   return Array(rows)
     .fill(undefined)
     .map(() => Array(cols).fill(0));

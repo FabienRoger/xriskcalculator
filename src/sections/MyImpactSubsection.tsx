@@ -1,6 +1,6 @@
 import { Checkbox, MenuItem, Select, Slider } from "@mui/material";
 import React from "react";
-import { Col, Row } from "react-bootstrap";
+import { Grid } from "@mui/material";
 import Collapsable from "../components/Collapsable";
 import IncreaseInput from "../components/IncreaseInput";
 import ProbabilityInput from "../components/ProbabilityInput";
@@ -8,6 +8,11 @@ import { SpeedUpFactorChain, useParametersContext } from "../ParametersContext";
 import { nbYears } from "../utils/constants";
 import { indexToYear } from "../utils/converters";
 import { increaseToDisplayedIncrease, range } from "../utils/mathUtils";
+import {
+  InputGridContainer,
+  InputGridItem,
+  LargeInputGridItem,
+} from "../components/GridComponents";
 
 const sliderMarks = range(nbYears)
   .filter((i) => i % 4 == 0)
@@ -37,14 +42,14 @@ const SpeedUpChainInput = (
       >
         {speedUpFactorsChains.map((chain, i) => (
           <MenuItem value={i} key={i}>
-            {chain.title}
+            <div style={{ whiteSpace: "normal" }}>{chain.title}</div>
           </MenuItem>
         ))}
       </Select>
       <br />
       <br />
       <p>{speedUpFactorsChains[currentSpeedUpChain].description}</p>
-      <Row>
+      <InputGridContainer>
         {speedUpFactorsChains[currentSpeedUpChain].speedUpFactors.map(
           (factor, i) => {
             const [value, setValue] = factor.state;
@@ -55,18 +60,18 @@ const SpeedUpChainInput = (
               key: `value${i}`,
             };
             return (
-              <Col sm={12} md={4} key={`col${i} ${currentSpeedUpChain}`}>
+              <LargeInputGridItem key={`col${i} ${currentSpeedUpChain}`}>
                 {
                   {
                     "%prob": <ProbabilityInput {...props} />,
                     "%increase": <IncreaseInput {...props} />,
                   }[factor.type]
                 }
-              </Col>
+              </LargeInputGridItem>
             );
           }
         )}
-      </Row>
+      </InputGridContainer>
       <br />
       <p>Resulting speedup: +{increaseToDisplayedIncrease(speedup)}%</p>
       <p>When will this speedup be effective?</p>

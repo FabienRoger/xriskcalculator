@@ -1,6 +1,6 @@
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import React from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import ProbabilityResult from "../components/ProbabilityResult";
 import { useParametersContext } from "../ParametersContext";
 import { useDevice } from "../utils/deviceHook";
@@ -40,16 +40,21 @@ const ResultsSection = (): JSX.Element => {
     <div className="results-section">
       <Container>
         <h2>Results</h2>
-        <Row
-        // style={{
-        //   maxWidth: "40em",
-        // }}
+        <Grid
+          container
+          // style={{
+          //   maxWidth: "40em",
+          // }}
         >
           {isDesktop ? (
             <>
-              <Col style={{ maxWidth: "20em" }}>{doomResult}</Col>
-              <Col style={{ maxWidth: "25em" }}>{saveResult}</Col>
-              {displayExpectedLivesSaved && <Col>{livesResult}</Col>}
+              <Grid item style={{ maxWidth: "20em" }}>
+                {doomResult}
+              </Grid>
+              <Grid item style={{ maxWidth: "25em" }}>
+                {saveResult}
+              </Grid>
+              {displayExpectedLivesSaved && <Grid item>{livesResult}</Grid>}
             </>
           ) : (
             <>
@@ -62,7 +67,7 @@ const ResultsSection = (): JSX.Element => {
               {livesResult}
             </>
           )}
-        </Row>
+        </Grid>
       </Container>
     </div>
   );

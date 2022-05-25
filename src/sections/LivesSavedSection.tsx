@@ -1,14 +1,8 @@
-import { MenuItem, Select, Slider } from "@mui/material";
 import React from "react";
-import { Col, Row } from "react-bootstrap";
 import Collapsable from "../components/Collapsable";
-import IncreaseInput from "../components/IncreaseInput";
-import ProbabilityInput from "../components/ProbabilityInput";
+import { InputGridContainer, LargeInputGridItem } from "../components/GridComponents";
 import ValueInput from "../components/ValueInput";
 import { useParametersContext } from "../ParametersContext";
-import { nbYears } from "../utils/constants";
-import { indexToYear } from "../utils/converters";
-import { increaseToDisplayedIncrease, range } from "../utils/mathUtils";
 
 const LivesSavedSection = (): JSX.Element => {
   const { livesPreventByWrongAGI, setLivesPreventedByWrongAGI } =
@@ -28,16 +22,16 @@ const LivesSavedSection = (): JSX.Element => {
         How many lives would be prevented, in expectation, by the creation of an
         AGI which would go wrong?
       </p>
-      <Row>
-        <Col sm={12} md={4}>
+      <InputGridContainer>
+        <LargeInputGridItem>
           <ValueInput
             setValue={setLivesPreventedByWrongAGI}
             text={"How many lives would it prevent?"}
             defaultValue={livesPreventByWrongAGI}
             canBeUndefined
           />
-        </Col>
-      </Row>
+        </LargeInputGridItem>
+      </InputGridContainer>
     </Collapsable>
   );
 };

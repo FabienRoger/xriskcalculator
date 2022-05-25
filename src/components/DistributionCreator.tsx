@@ -1,7 +1,6 @@
-import { Slider } from "@mui/material";
+import { Grid, Slider } from "@mui/material";
 import _ from "lodash";
 import React, { useCallback, useEffect, useState } from "react";
-import { Row } from "react-bootstrap";
 import {
   CartesianGrid,
   Line,
@@ -69,7 +68,7 @@ const PiecewiseLinearDistributionCreator = (
 
   return (
     <>
-      <Row>
+      <Grid container>
         <p className="slider-title">{text}</p>
         <div className="linechart-container">
           <ResponsiveContainer>
@@ -97,7 +96,7 @@ const PiecewiseLinearDistributionCreator = (
             step={0.25}
           />
         </div>
-      </Row>
+      </Grid>
     </>
   );
 };

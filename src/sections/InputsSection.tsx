@@ -1,7 +1,11 @@
+import { Grid } from "@mui/material";
 import React from "react";
-import { Col, Row } from "react-bootstrap";
 import Collapsable from "../components/Collapsable";
 import PiecewiseLinearDistributionCreator from "../components/DistributionCreator";
+import {
+  InputGridContainer,
+  InputGridItem,
+} from "../components/GridComponents";
 import ProbabilityInput from "../components/ProbabilityInput";
 import { useParametersContext } from "../ParametersContext";
 import LivesSavedSection from "./LivesSavedSection";
@@ -31,22 +35,22 @@ const InputsSection = (): JSX.Element => {
           </>
         }
       >
-        <Row>
-          <Col sm={12} md={4}>
+        <InputGridContainer>
+          <InputGridItem>
             <ProbabilityInput
               setValue={setAgiProb}
               text={"How likely is AGI"}
               defaultValue={agiProb}
             />
-          </Col>
-          <Col sm={12} md={4}>
+          </InputGridItem>
+          <InputGridItem>
             <ProbabilityInput
               setValue={setAgiWrongProb}
               text={"How likely is it to go wrong?"}
               defaultValue={agiWrongProb}
             />
-          </Col>
-        </Row>
+          </InputGridItem>
+        </InputGridContainer>
         <PiecewiseLinearDistributionCreator
           setDistribution={setAgiDistribution}
           text="What is the probability that AGI that goes wrong happens before any given year?"
@@ -70,15 +74,15 @@ const InputsSection = (): JSX.Element => {
             AGI happening first should not be considered here.
           </i>
         </p>
-        <Row>
-          <Col sm={12} md={4}>
+        <InputGridContainer>
+          <InputGridItem>
             <ProbabilityInput
               setValue={setAisProb}
               text={"How likely is AGI safety to work?"}
               defaultValue={aisProb}
             />
-          </Col>
-        </Row>
+          </InputGridItem>
+        </InputGridContainer>
 
         <PiecewiseLinearDistributionCreator
           setDistribution={setAisDistribution}

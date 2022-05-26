@@ -26,7 +26,7 @@ const LimitationSection = (): JSX.Element => {
           high variance in outcome and that you are a significant player in AGI
           safety.
         </li>
-        <li>This tool mainly focuses on technical.</li>
+        <li>This tool mainly focuses on technical research.</li>
         <li>
           There might be a bug somewhere. If the results seem completely wrong,
           it may be that I screwed up. As of now, there isn't a lot of tests to

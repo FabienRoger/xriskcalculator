@@ -17,12 +17,12 @@ export const defaultSpeedUpFactorsChains = [
       {
         question: "What fraction of the work is your org. doing?",
         type: "%prob",
-        defaultValue: 0.01,
+        defaultValue: 0.05,
       },
       {
         question: "How much do you speedup your org.'s work?",
         type: "%increase",
-        defaultValue: 0.005,
+        defaultValue: 0.01,
       },
     ],
   },
@@ -34,12 +34,12 @@ export const defaultSpeedUpFactorsChains = [
       {
         question: "For what fraction of the progress will you field do?",
         type: "%prob",
-        defaultValue: 0.01,
+        defaultValue: 0.2,
       },
       {
         question: "How much do you speed up research in your field?",
         type: "%increase",
-        defaultValue: 0.005,
+        defaultValue: 0.01,
       },
     ],
   },
@@ -78,7 +78,7 @@ export const defaultSpeedUpFactorsChains = [
     ],
   },
 ];
-export const defaultSpeedUpRange: [number, number] = [2, 10];
+export const defaultSpeedUpRange: [number, number] = [1, 10];
 
 export const defaultLivesPreventByWrongAGI = undefined;
 

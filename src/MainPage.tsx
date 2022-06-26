@@ -18,9 +18,9 @@ const MainPage = (): JSX.Element => {
       </Navbar>
       <Container className="main">
         <p>
-          This is tool to do a Fermi estimate of the impact you might have
-          working in AGI Safety if you have skills that may speed up progress in
-          this field.
+          This is a tool to help you do a Fermi estimate of the impact you might
+          have working in AGI Safety if you have skills that may speed up
+          progress in this field.
         </p>
         <InputsSection />
       </Container>

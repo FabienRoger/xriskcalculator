@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { SpeedUpFactorChain } from "./ParametersContext";
 import { nbYears } from "./utils/constants";
 
@@ -8,7 +7,7 @@ export const defaultAISProb = 0.5;
 export const defaultAGIDistributionXCoordinates = [0, 5, 10, nbYears - 1];
 export const defaultAISDistributionXCoordinates = [2, 8, 14, nbYears - 1];
 export const defaultSpeedUpChain = 0;
-export const defaultSpeedUpFactorsChains = [
+export const defaultSpeedUpFactorsChains: SpeedUpFactorChain[] = [
   {
     title: "You increase the speed at which an AGI safety organisation works",
     description: `Describe what fraction of the AGI safety work your organization is doing,
@@ -17,12 +16,12 @@ export const defaultSpeedUpFactorsChains = [
       {
         question: "What fraction of the work is your org. doing?",
         type: "%prob",
-        defaultValue: 0.05,
+        value: 0.05,
       },
       {
         question: "How much do you speedup your org.'s work?",
         type: "%increase",
-        defaultValue: 0.01,
+        value: 0.01,
       },
     ],
   },
@@ -34,12 +33,12 @@ export const defaultSpeedUpFactorsChains = [
       {
         question: "For what fraction of the progress will you field do?",
         type: "%prob",
-        defaultValue: 0.2,
+        value: 0.2,
       },
       {
         question: "How much do you speed up research in your field?",
         type: "%increase",
-        defaultValue: 0.01,
+        value: 0.01,
       },
     ],
   },
@@ -55,24 +54,24 @@ export const defaultSpeedUpFactorsChains = [
       {
         question: "How likely is it that you will be successful",
         type: "%prob",
-        defaultValue: 0.5,
+        value: 0.5,
       },
       {
         question: "How much will your org. speed up the progress?",
         type: "%increase",
-        defaultValue: 0.05,
+        value: 0.05,
       },
       {
         question: "How likely is it that it would have existed without you?",
         type: "%prob",
-        defaultValue: 0.4,
+        value: 0.4,
         inverted: true,
       },
       {
         question:
           "How likely is it that you prevent a similar org. from existing?",
         type: "%prob",
-        defaultValue: 0.4,
+        value: 0.4,
         inverted: true,
       },
     ],
@@ -83,7 +82,7 @@ export const defaultSpeedUpRange: [number, number] = [1, 10];
 export const defaultLivesPreventByWrongAGI = undefined;
 
 export const defaultAGISpeedUpChain = 0;
-export const defaultAGISpeedUpFactorsChains = [
+export const defaultAGISpeedUpFactorsChains: SpeedUpFactorChain[] = [
   {
     title: "You increase the speed at which an organisation works",
     description: `Describe what fraction of the work towards building AGI your organization is doing,
@@ -92,12 +91,12 @@ export const defaultAGISpeedUpFactorsChains = [
       {
         question: "What fraction of the work is your org. doing?",
         type: "%prob",
-        defaultValue: 0.001,
+        value: 0.001,
       },
       {
         question: "How much do you speedup your org.'s work?",
         type: "%increase",
-        defaultValue: 0.005,
+        value: 0.005,
       },
     ],
   },
@@ -109,12 +108,12 @@ export const defaultAGISpeedUpFactorsChains = [
       {
         question: "For what fraction of the progress in AGI will you field do?",
         type: "%prob",
-        defaultValue: 0.001,
+        value: 0.001,
       },
       {
         question: "How much do you speed up research in your field?",
         type: "%increase",
-        defaultValue: 0.005,
+        value: 0.005,
       },
     ],
   },
@@ -130,24 +129,24 @@ export const defaultAGISpeedUpFactorsChains = [
       {
         question: "How likely is it that you will be successful",
         type: "%prob",
-        defaultValue: 0.5,
+        value: 0.5,
       },
       {
         question: "How much will your org. speed up building AGI?",
         type: "%increase",
-        defaultValue: 0.005,
+        value: 0.005,
       },
       {
         question: "How likely is it that it would have existed without you?",
         type: "%prob",
-        defaultValue: 0.4,
+        value: 0.4,
         inverted: true,
       },
       {
         question:
           "How likely is it that you prevent a similar org. from existing?",
         type: "%prob",
-        defaultValue: 0.4,
+        value: 0.4,
         inverted: true,
       },
     ],

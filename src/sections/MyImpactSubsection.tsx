@@ -1,6 +1,5 @@
 import { Checkbox, MenuItem, Select, Slider } from "@mui/material";
 import React from "react";
-import { Grid } from "@mui/material";
 import Collapsable from "../components/Collapsable";
 import IncreaseInput from "../components/IncreaseInput";
 import ProbabilityInput from "../components/ProbabilityInput";
@@ -10,12 +9,11 @@ import { indexToYear } from "../utils/converters";
 import { increaseToDisplayedIncrease, range } from "../utils/mathUtils";
 import {
   InputGridContainer,
-  InputGridItem,
   LargeInputGridItem,
 } from "../components/GridComponents";
 
 const sliderMarks = range(nbYears)
-  .filter((i) => i % 4 == 0)
+  .filter((i) => i % 4 === 0)
   .map((i) => ({
     value: i,
     label: indexToYear(i),
@@ -23,6 +21,9 @@ const sliderMarks = range(nbYears)
 
 const SpeedUpChainInput = (
   speedUpFactorsChains: SpeedUpFactorChain[],
+  setSpeedUpFactorsChains: React.Dispatch<
+    React.SetStateAction<SpeedUpFactorChain[]>
+  >,
   currentSpeedUpChain: number,
   setCurrentSpeedUpChain: React.Dispatch<React.SetStateAction<number>>,
   speedUpRange: [number, number],
@@ -52,11 +53,16 @@ const SpeedUpChainInput = (
       <InputGridContainer>
         {speedUpFactorsChains[currentSpeedUpChain].speedUpFactors.map(
           (factor, i) => {
-            const [value, setValue] = factor.state;
             const props = {
-              setValue: setValue,
+              setValue: (v: number) => {
+                let newSpeedUpFactorsChains = [...speedUpFactorsChains];
+                newSpeedUpFactorsChains[currentSpeedUpChain].speedUpFactors[
+                  i
+                ].value = v;
+                setSpeedUpFactorsChains(newSpeedUpFactorsChains);
+              },
               text: factor.question,
-              defaultValue: value,
+              defaultValue: factor.value,
               key: `value${i}`,
             };
             return (
@@ -94,12 +100,14 @@ const SpeedUpChainInput = (
 const MyImpactSubsection = (): JSX.Element => {
   const {
     speedUpFactorsChains,
+    setSpeedUpFactorsChains,
     currentSpeedUpChain,
     setCurrentSpeedUpChain,
     speedUpRange,
     setSpeedUpRange,
     speedup,
     agiSpeedUpFactorsChains,
+    setAgiSpeedUpFactorsChains,
     currentAgiSpeedUpChain,
     setCurrentAgiSpeedUpChain,
     agiSpeedUpRange,
@@ -111,6 +119,7 @@ const MyImpactSubsection = (): JSX.Element => {
 
   const aisSpeedUpChainInput = SpeedUpChainInput(
     speedUpFactorsChains,
+    setSpeedUpFactorsChains,
     currentSpeedUpChain,
     setCurrentSpeedUpChain,
     speedUpRange,
@@ -119,6 +128,7 @@ const MyImpactSubsection = (): JSX.Element => {
   );
   const agiSpeedUpChainInput = SpeedUpChainInput(
     agiSpeedUpFactorsChains,
+    setAgiSpeedUpFactorsChains,
     currentAgiSpeedUpChain,
     setCurrentAgiSpeedUpChain,
     agiSpeedUpRange,

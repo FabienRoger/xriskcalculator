@@ -45,6 +45,7 @@ type ParametersContext = {
   setAgiDistribution: Dispatch<SetStateAction<PiecewiseDistributionParameters>>;
   setAisDistribution: Dispatch<SetStateAction<PiecewiseDistributionParameters>>;
   setCurrentSpeedUpChain: Dispatch<SetStateAction<number>>;
+  setSpeedUpFactorsChains: Dispatch<SetStateAction<SpeedUpFactorChain[]>>;
   setSpeedUpRange: Dispatch<SetStateAction<[number, number]>>;
   setLivesPreventedByWrongAGI: Dispatch<SetStateAction<number | undefined>>;
   speedup: number;
@@ -56,8 +57,8 @@ type ParametersContext = {
   doomProbWithYou: number;
   saveProb: number;
   expectedLivesSaved: number | undefined;
-
   agiSpeedUpFactorsChains: SpeedUpFactorChain[];
+  setAgiSpeedUpFactorsChains: Dispatch<SetStateAction<SpeedUpFactorChain[]>>;
   currentAgiSpeedUpChain: number;
   setCurrentAgiSpeedUpChain: Dispatch<SetStateAction<number>>;
   agiSpeedUpRange: [number, number];
@@ -70,7 +71,7 @@ type ParametersContext = {
 type SpeedUpFactor = {
   question: string;
   type: "%prob" | "%increase";
-  state: [number, Dispatch<SetStateAction<number>>];
+  value: number;
   inverted?: boolean;
 };
 
@@ -108,19 +109,22 @@ export const ParametersContextProvider = ({
   const [currentSpeedUpChain, setCurrentSpeedUpChain] =
     useState<number>(defaultSpeedUpChain);
 
-  const speedUpFactorsChains: SpeedUpFactorChain[] =
-    defaultSpeedUpFactorsChains.map((chain) => ({
-      title: chain.title,
-      description: chain.description,
-      speedUpFactors: chain.speedUpFactors.map((factor) => {
-        return {
-          question: factor.question,
-          type: factor.type,
-          state: useState<number>(factor.defaultValue),
-          inverted: factor.inverted,
-        };
-      }) as SpeedUpFactor[],
-    }));
+  // const speedUpFactorsChains: SpeedUpFactorChain[] =
+  //   defaultSpeedUpFactorsChains.map((chain) => ({
+  //     title: chain.title,
+  //     description: chain.description,
+  //     speedUpFactors: chain.speedUpFactors.map((factor) => {
+  //       return {
+  //         question: factor.question,
+  //         type: factor.type,
+  //         state: useState<number>(factor.defaultValue),
+  //         inverted: factor.inverted,
+  //       };
+  //     }) as SpeedUpFactor[],
+  //   }));
+  const [speedUpFactorsChains, setSpeedUpFactorsChains] = useState<
+    SpeedUpFactorChain[]
+  >(defaultSpeedUpFactorsChains);
 
   const [speedUpRange, setSpeedUpRange] =
     useState<[number, number]>(defaultSpeedUpRange);
@@ -128,19 +132,9 @@ export const ParametersContextProvider = ({
   const [currentAgiSpeedUpChain, setCurrentAgiSpeedUpChain] =
     useState<number>(defaultSpeedUpChain);
 
-  const agiSpeedUpFactorsChains: SpeedUpFactorChain[] =
-    defaultAGISpeedUpFactorsChains.map((chain) => ({
-      title: chain.title,
-      description: chain.description,
-      speedUpFactors: chain.speedUpFactors.map((factor) => {
-        return {
-          question: factor.question,
-          type: factor.type,
-          state: useState<number>(factor.defaultValue),
-          inverted: factor.inverted,
-        };
-      }) as SpeedUpFactor[],
-    }));
+  const [agiSpeedUpFactorsChains, setAgiSpeedUpFactorsChains] = useState<
+    SpeedUpFactorChain[]
+  >(defaultAGISpeedUpFactorsChains);
 
   const [agiSpeedUpRange, setAgiSpeedUpRange] = useState<[number, number]>(
     defaultAGISpeedUpRange
@@ -232,6 +226,7 @@ export const ParametersContextProvider = ({
         setAgiDistribution,
         setAisDistribution,
         setCurrentSpeedUpChain,
+        setSpeedUpFactorsChains,
         setSpeedUpRange,
         setLivesPreventedByWrongAGI,
         speedup,
@@ -243,8 +238,8 @@ export const ParametersContextProvider = ({
         doomProbWithYou,
         saveProb,
         expectedLivesSaved,
-
         agiSpeedUpFactorsChains,
+        setAgiSpeedUpFactorsChains,
         currentAgiSpeedUpChain,
         setCurrentAgiSpeedUpChain,
         agiSpeedUpRange,

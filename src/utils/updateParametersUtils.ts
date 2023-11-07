@@ -1,4 +1,3 @@
-import { nbYears } from "./constants";
 import { SpeedUpFactorChain } from "../ParametersContext";
 import {
   cumulativeToDensity,
@@ -61,8 +60,7 @@ export const probDoom = (probabilityDensity: number[][]): number => {
 
 export const speedUpFromChain = (chain: SpeedUpFactorChain): number => {
   return chain.speedUpFactors.reduce((previousValue, currentValue) => {
-    const [value, _] = currentValue.state;
-    const multiplicativeValue = currentValue.inverted ? 1 - value : value;
+    const multiplicativeValue = currentValue.inverted ? 1 - currentValue.value : currentValue.value;
     return previousValue * multiplicativeValue;
   }, 1);
 };
